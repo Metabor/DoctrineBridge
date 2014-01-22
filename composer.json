@@ -1,0 +1,23 @@
+{
+    "name": "metabor/statemachine",
+    "description": "Doctrine implementation of the MetaborStd (Statemachine)",
+    "license": "MIT",
+    "keywords": ["doctrine", "statemachine", "state machine", "status", "process"],
+    "authors": [
+        {
+            "name": "Oliver Tischlinger",
+            "email": "oliver.tischlinger@metabor.de"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+	    "metabor/statemachine": "*"
+    },
+     "autoload": {
+        "psr-0": {
+			"Metabor\\": "src/",
+        }
+    },
+    "prefer-stable":true,
+    "minimum-stability":"dev"
+}
