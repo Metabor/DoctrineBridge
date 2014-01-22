@@ -25,14 +25,6 @@ class Process implements ProcessInterface
     private $id;
 
     /**
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * @var string
      *
      * @ORM\Column(unique=true)
@@ -63,6 +55,14 @@ class Process implements ProcessInterface
         $this->states = new ArrayCollection();
         $this->name = $name;
         $this->initialState = $initialState;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

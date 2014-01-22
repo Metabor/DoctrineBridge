@@ -1,9 +1,8 @@
 <?php
 namespace Metabor\Doctrine\Statemachine;
+
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Metabor\Doctrine\KeyValue\Metadata;
-
 use MetaborStd\Statemachine\StateInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,12 +24,12 @@ class State extends Metadata implements StateInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-    
+
     /**
      * @var Process
      */
     private $process;
-    
+
     /**
      * @var string
      *
@@ -46,14 +45,22 @@ class State extends Metadata implements StateInterface
     private $events;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Transition")
+     */
+    private $transitions;
+
+    /**
      * @param string $name
      * @param Process $process
      */
     public function __construct($name = null, Process $process = null)
     {
         $this->name = $name;
-        $this->events = new ArrayCollection();
         $this->process = $process;
+        $this->events = new ArrayCollection();
+        $this->transitions = new ArrayCollection();
     }
 
     /**
@@ -104,9 +111,12 @@ class State extends Metadata implements StateInterface
         return $this->events->getKeys();
     }
 
+    /**
+     * @see \MetaborStd\Statemachine\StateInterface::getTransitions()
+     */
     public function getTransitions()
     {
-        // TODO Auto-generated method stub
+        return $this->getTransitions();
     }
 
     /**

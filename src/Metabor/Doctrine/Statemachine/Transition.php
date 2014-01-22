@@ -1,11 +1,11 @@
 <?php
 namespace Metabor\Doctrine\Statemachine;
+
+use Metabor\Statemachine\Condition\SymfonyExpression;
+use MetaborStd\Statemachine\ConditionInterface;
 use Metabor\Doctrine\Event\Event;
-
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-
 use Symfony\Component\ExpressionLanguage\Expression;
-
 use MetaborStd\Statemachine\TransitionInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,6 +35,12 @@ class Transition implements TransitionInterface
      * @ORM\Column()
      * 
      */
+    private $conditionName;
+
+    /**
+     * @var ConditionInterface
+     *
+     */
     private $condition;
 
     /**
@@ -47,23 +53,38 @@ class Transition implements TransitionInterface
 
     /**
      * @var State
+     * 
+     * @ORM\ManyToOne(targetEntity="State")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $sourceState;
 
     /**
      * @var State
+     * 
+     * @ORM\ManyToOne(targetEntity="State")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $targetState;
 
     /**
      * @var ExpressionLanguage
      */
-    private $expressionLanguage;
+    static private $expressionLanguage;
 
     /**
-     * @var Expression
+     * @param State $sourceState
+     * @param State $targetState
+     * @param string $eventName
+     * @param string $condition
      */
-    private $expression;
+    public function __construct(State $sourceState = null, State $targetState = null, $eventName = null, $conditionName = null)
+    {
+        $this->sourceState = $sourceState;
+        $this->targetState = $targetState;
+        $this->eventName = $eventName;
+        $this->conditionName = $conditionName;
+    }
 
     /**
      * @return integer
@@ -74,19 +95,11 @@ class Transition implements TransitionInterface
     }
 
     /**
-     * @return \Symfony\Component\ExpressionLanguage\ExpressionLanguage
-     */
-    protected function getExpressionLanguage()
-    {
-        return $this->expressionLanguage;
-    }
-
-    /**
      * @return string
      */
     public function getConditionName()
     {
-        return $this->condition;
+        return $this->conditionName;
     }
 
     /**
@@ -115,21 +128,47 @@ class Transition implements TransitionInterface
         }
     }
 
+    /**
+     * @return \MetaborStd\Statemachine\ConditionInterface
+     */
+    protected function getCondition()
+    {
+        if (!$this->condition) {
+            $this->condition = new SymfonyExpression($this->getConditionName(), self::$expressionLanguage);
+        }
+        return $this->condition;
+    }
+
+    /**
+     * @see \MetaborStd\Statemachine\TransitionInterface::isActive()
+     */
     public function isActive($subject, ArrayAccess $context, EventInterface $event = null)
     {
         if ($this->getEvent() === $event) {
-            $language = $this->getExpressionLanguage();
-
+            if ($this->condition) {
+                return $this->getCondition()->checkCondition($subject, $context);
+            } else {
+                return true;
+            }
+        } else {
+            return false;
         }
     }
 
     /**
      * @link http://symfony.com/doc/current/components/expression_language/index.html
-     * @param string $condition
+     * @param string $conditionName
      */
-    public function setConditionName($condition)
+    public function setConditionName($conditionName)
     {
-        $this->condition = $condition;
+        $this->conditionName = $conditionName;
     }
 
+    /**
+     * @param ExpressionLanguage $expressionLanguage
+     */
+    static public function setExpressionLanguage(ExpressionLanguage $expressionLanguage = null)
+    {
+        self::$expressionLanguage = $expressionLanguage;
+    }
 }
