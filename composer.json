@@ -11,7 +11,10 @@
     ],
     "require": {
         "php": ">=5.3",
-	    "metabor/statemachine": "*"
+        "metabor/metabor-std": "*",
+	    "metabor/statemachine": "*",
+	    "doctrine/orm": " "2.*",
+	    "symfony/expression-language": "*"
     },
      "autoload": {
         "psr-0": {
