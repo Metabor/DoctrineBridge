@@ -1,5 +1,5 @@
 {
-    "name": "metabor/metabor-doctrine-bridge",
+    "name": "metabor/statemachine-doctrine-bridge",
     "description": "Doctrine implementation of the MetaborStd (Statemachine)",
     "license": "MIT",
     "keywords": ["doctrine", "statemachine", "state machine", "status", "process"],
