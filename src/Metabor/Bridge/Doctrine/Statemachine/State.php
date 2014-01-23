@@ -20,7 +20,7 @@ use Metabor\Bridge\Doctrine\Event\Event;
 class State extends Metadata implements StateInterface
 {
     const ENTITY_NAME = __CLASS__;
-    
+
     /**
      * @var integer
      *
@@ -164,4 +164,38 @@ class State extends Metadata implements StateInterface
         $this->events = $events;
     }
 
+    /**
+     * @param Transition $transition
+     */
+    public function addTransition(Transition $transition)
+    {
+        $transition->setSourceState($this);
+        $this->transitions->add($transition);
+    }
+    
+    /**
+     * @param Transition $transition
+     */
+    public function addTransition(Transition $transition)
+    {
+        $transition->setSourceState($this);
+        $this->transitions->add($transition);
+    }
+    
+    /**
+     * @param Transition $transition
+     */
+    public function addTransition(Transition $transition)
+    {
+        $transition->setSourceState($this);
+        $this->transitions->add($transition);
+    }
+
+    /**
+     * @param Transition $transition
+     */
+    public function removeTransition(Transition $transition)
+    {
+        $this->transitions->remove($transition);
+    }
 }

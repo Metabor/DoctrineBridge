@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Transition implements TransitionInterface
 {
     const ENTITY_NAME = __CLASS__;
-    
+
     /**
      * @var integer
      *
@@ -58,7 +58,7 @@ class Transition implements TransitionInterface
     /**
      * @var State
      * 
-     * @ORM\ManyToOne(targetEntity="State")
+     * @ORM\ManyToOne(targetEntity="State", inversedBy="transitions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sourceState;
@@ -175,4 +175,29 @@ class Transition implements TransitionInterface
     {
         self::$expressionLanguage = $expressionLanguage;
     }
+
+    /**
+     * @return \Metabor\Bridge\Doctrine\Statemachine\State
+     */
+    public function getSourceState()
+    {
+        return $this->sourceState;
+    }
+
+    /**
+     * @param State $sourceState
+     */
+    public function setSourceState(State $sourceState)
+    {
+        $this->sourceState = $sourceState;
+    }
+
+    /**
+     * @param State $targetState
+     */
+    public function setTargetState(State $targetState)
+    {
+        $this->targetState = $targetState;
+    }
+
 }
