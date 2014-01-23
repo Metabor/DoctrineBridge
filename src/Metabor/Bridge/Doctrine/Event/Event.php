@@ -96,7 +96,7 @@ class Event extends Metadata implements EventInterface
      *
      * @see SplSubject::attach()
      */
-    public function attach(SplObserver $observer)
+    public function attach(\SplObserver $observer)
     {
         $this->observers->attach($observer);
     }
@@ -105,7 +105,7 @@ class Event extends Metadata implements EventInterface
      *
      * @see SplSubject::detach()
      */
-    public function detach(SplObserver $observer)
+    public function detach(\SplObserver $observer)
     {
         $this->observers->detach($observer);
     }
@@ -116,7 +116,7 @@ class Event extends Metadata implements EventInterface
      */
     public function notify()
     {
-        /* @var $observer SplObserver */
+        /* @var $observer \SplObserver */
         foreach ($this->observers as $observer) {
             $observer->update($this);
         }
