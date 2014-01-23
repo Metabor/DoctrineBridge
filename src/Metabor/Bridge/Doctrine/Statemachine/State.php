@@ -121,7 +121,7 @@ class State extends Metadata implements StateInterface
      */
     public function getTransitions()
     {
-        return $this->getTransitions();
+        return $this->transitions;
     }
 
     /**
