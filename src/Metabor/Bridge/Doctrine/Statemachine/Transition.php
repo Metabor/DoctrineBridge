@@ -111,7 +111,7 @@ class Transition implements TransitionInterface
      */
     public function getTargetState()
     {
-        return $this->getTargetState();
+        return $this->targetState;
     }
 
     /**
@@ -149,7 +149,7 @@ class Transition implements TransitionInterface
     protected function getCondition()
     {
         if (!$this->condition) {
-            $this->condition = new SymfonyExpression($this->getConditionName(), self::$expressionLanguage);
+            $this->condition = new SymfonyExpression($this->conditionName, self::$expressionLanguage);
         }
         return $this->condition;
     }
@@ -160,7 +160,7 @@ class Transition implements TransitionInterface
     public function isActive($subject, \ArrayAccess $context, EventInterface $event = null)
     {
         if ($this->event === $event) {
-            if ($this->condition) {
+            if ($this->conditionName) {
                 return $this->getCondition()->checkCondition($subject, $context);
             } else {
                 return true;
