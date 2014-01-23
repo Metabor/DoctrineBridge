@@ -155,10 +155,10 @@ class Process implements ProcessInterface
     public function findOrCreateState($stateName)
     {
         if ($this->states->containsKey($stateName)) {
+            $state = $this->states->get($stateName);
+        } else {
             $state = new State($stateName, $this);
             $this->states->set($stateName, $state);
-        } else {
-            $state = $this->states->get($stateName);
         }
         return $state;
     }

@@ -199,10 +199,10 @@ class State extends Metadata implements StateInterface
     {
         if ($eventName) {
             if ($this->events->containsKey($eventName)) {
+                $event = $this->events->get($eventName);
+            } else {
                 $event = new Event($eventName);
                 $this->events->set($eventName, $event);
-            } else {
-                $event = $this->events->get($eventName);
             }
         }
     }
