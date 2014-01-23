@@ -113,7 +113,7 @@ class Process implements ProcessInterface
      */
     public function addState(State $state)
     {
-        $this->states->offsetSet($state->getName(), $state);
+        $this->states->set($state->getName(), $state);
     }
 
     /**
@@ -129,7 +129,7 @@ class Process implements ProcessInterface
      */
     public function getState($name)
     {
-        return $this->states->offsetGet($name);
+        return $this->states->get($name);
     }
 
     /**
@@ -137,7 +137,7 @@ class Process implements ProcessInterface
      */
     public function hasState($name)
     {
-        return $this->states->offsetExists($name);
+        return $this->states->containsKey($name);
     }
 
     /**
@@ -154,11 +154,11 @@ class Process implements ProcessInterface
      */
     public function findOrCreateState($stateName)
     {
-        if ($this->states->offsetExists($stateName)) {
+        if ($this->states->containsKey($stateName)) {
             $state = new State($stateName, $this);
-            $this->states->offsetSet($stateName, $state);
+            $this->states->set($stateName, $state);
         } else {
-            $state = $this->states->offsetGet($stateName);
+            $state = $this->states->get($stateName);
         }
         return $state;
     }
