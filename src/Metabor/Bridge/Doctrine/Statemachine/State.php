@@ -182,18 +182,20 @@ class State extends Metadata implements StateInterface
     }
 
     /**
-     * @param unknown_type $eventName
+     * @param string $eventName
      * @return \Metabor\Bridge\Doctrine\Event\Event
      */
     public function findOrCreateEvent($eventName)
     {
-        if ($this->events->offsetExists($eventName)) {
-            $event = new Event($eventName);
-            $this->events->offsetSet($eventName, $event);
-        } else {
-            $event = $this->events->offsetGet($eventName);
+        if ($eventName) {
+            if ($this->events->offsetExists($eventName)) {
+                $event = new Event($eventName);
+                $this->events->offsetSet($eventName, $event);
+            } else {
+                $event = $this->events->offsetGet($eventName);
+            }
+            return $event;
         }
-        return $event;
     }
 
     /**
@@ -204,7 +206,8 @@ class State extends Metadata implements StateInterface
      */
     public function createTransition(State $targetState, $eventName = null, $conditionName = null)
     {
-        $tansition = new Transition($this, $targetState, $eventName, $conditionName);
+        $event = $this->findOrCreateEvent($eventName);
+        $tansition = new Transition($this, $targetState, $event, $conditionName);
         $this->transitions->add($tansition);
         return $tansition;
     }
