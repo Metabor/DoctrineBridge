@@ -2,7 +2,6 @@
 namespace Metabor\Bridge\Doctrine\Statemachine;
 
 use MetaborStd\Event\EventInterface;
-
 use Metabor\Statemachine\Condition\SymfonyExpression;
 use MetaborStd\Statemachine\ConditionInterface;
 use Metabor\Bridge\Doctrine\Event\Event;
@@ -25,6 +24,11 @@ class Transition implements TransitionInterface
     const ENTITY_NAME = __CLASS__;
 
     /**
+     * @var ExpressionLanguage
+     */
+    static private $expressionLanguage;
+
+    /**
      * @var integer
      *
      * @ORM\Column(type="integer")
@@ -32,28 +36,6 @@ class Transition implements TransitionInterface
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var string
-     * 
-     * @ORM\Column(nullable=true)
-     * 
-     */
-    private $conditionName;
-
-    /**
-     * @var ConditionInterface
-     *
-     */
-    private $condition;
-
-    /**
-     * @var string
-     * 
-     * @ORM\Column(nullable=true)
-     * 
-     */
-    private $eventName;
 
     /**
      * @var State
@@ -72,9 +54,27 @@ class Transition implements TransitionInterface
     private $targetState;
 
     /**
-     * @var ExpressionLanguage
+     * @var \Metabor\Bridge\Doctrine\Event\Event
+     * 
+     * @ORM\ManyToOne(targetEntity="Metabor\Bridge\Doctrine\Event\Event")
+     * @ORM\JoinColumn(nullable=false)
+     * 
      */
-    static private $expressionLanguage;
+    private $event;
+
+    /**
+     * @var string
+     * 
+     * @ORM\Column(nullable=true)
+     * 
+     */
+    private $conditionName;
+
+    /**
+     * @var ConditionInterface
+     *
+     */
+    private $condition;
 
     /**
      * @param State $sourceState
@@ -82,11 +82,11 @@ class Transition implements TransitionInterface
      * @param string $eventName
      * @param string $condition
      */
-    public function __construct(State $sourceState = null, State $targetState = null, $eventName = null, $conditionName = null)
+    public function __construct(State $sourceState = null, State $targetState = null, Event $event, $conditionName = null)
     {
         $this->sourceState = $sourceState;
         $this->targetState = $targetState;
-        $this->eventName = $eventName;
+        $this->event = $event;
         $this->conditionName = $conditionName;
     }
 
@@ -107,14 +107,6 @@ class Transition implements TransitionInterface
     }
 
     /**
-     * @return string
-     */
-    public function getEventName()
-    {
-        return $this->eventName;
-    }
-
-    /**
      * @see \MetaborStd\Statemachine\TransitionInterface::getTargetState()
      */
     public function getTargetState()
@@ -125,10 +117,29 @@ class Transition implements TransitionInterface
     /**
      * @return Event
      */
-    protected function getEvent()
+    public function getEvent()
     {
-        if ($this->eventName) {
-            return $this->sourceState->getEvent($this->getEventName());
+        return $this->event;
+    }
+
+    /**
+     * @param Event $event
+     */
+    public function setEvent(Event $event = null)
+    {
+        if ($event) {
+            $this->getSourceState()->getEvents()->add($event);
+        }
+        $this->event = $event;
+    }
+
+    /**
+     * @see \MetaborStd\Statemachine\TransitionInterface::getEventName()
+     */
+    public function getEventName()
+    {
+        if ($this->event) {
+            return $this->event->getName();
         }
     }
 
@@ -148,7 +159,7 @@ class Transition implements TransitionInterface
      */
     public function isActive($subject, \ArrayAccess $context, EventInterface $event = null)
     {
-        if ($this->getEvent() === $event) {
+        if ($this->event === $event) {
             if ($this->condition) {
                 return $this->getCondition()->checkCondition($subject, $context);
             } else {

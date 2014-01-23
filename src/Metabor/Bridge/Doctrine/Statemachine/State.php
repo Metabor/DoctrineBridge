@@ -105,7 +105,7 @@ class State extends Metadata implements StateInterface
      */
     public function getEvent($name)
     {
-        return $this->events->offsetGet($name);
+        return $this->events->get($name);
     }
 
     /**
@@ -129,7 +129,7 @@ class State extends Metadata implements StateInterface
      */
     public function hasEvent($name)
     {
-        return $this->events->offsetExists($name);
+        return $this->events->containsKey($name);
     }
 
     /**
@@ -149,19 +149,29 @@ class State extends Metadata implements StateInterface
     }
 
     /**
+     * 
+     * @param Event $event
+     */
+    public function addEvent(Event $event)
+    {
+        $this->events->set($event->getName(), $event);
+    }
+
+    /**
+     * 
+     * @param Event $event
+     */
+    public function removeEvent(Event $event)
+    {
+        $this->events->remove($event);
+    }
+
+    /**
      * @param Process $process
      */
     public function setProcess(Process $process)
     {
         $this->process = $process;
-    }
-
-    /**
-     * @param Collection $events
-     */
-    public function setEvents(Collection $events)
-    {
-        $this->events = $events;
     }
 
     /**
@@ -182,16 +192,16 @@ class State extends Metadata implements StateInterface
     }
 
     /**
-     * @param unknown_type $eventName
+     * @param string $eventName
      * @return \Metabor\Bridge\Doctrine\Event\Event
      */
     public function findOrCreateEvent($eventName)
     {
-        if ($this->events->offsetExists($eventName)) {
+        if ($this->events->containsKey($eventName)) {
             $event = new Event($eventName);
-            $this->events->offsetSet($eventName, $event);
+            $this->events->set($eventName, $event);
         } else {
-            $event = $this->events->offsetGet($eventName);
+            $event = $this->events->get($eventName);
         }
         return $event;
     }
@@ -204,6 +214,9 @@ class State extends Metadata implements StateInterface
      */
     public function createTransition(State $targetState, $eventName = null, $conditionName = null)
     {
+        if ($eventName) {
+            $event = $this->findOrCreateEvent($eventName);
+        }
         $tansition = new Transition($this, $targetState, $eventName, $conditionName);
         $this->transitions->add($tansition);
         return $tansition;
