@@ -1,7 +1,7 @@
 <?php
-namespace Metabor\Doctrine\Event;
+namespace Metabor\Bridge\Doctrine\Event;
 
-use Metabor\Doctrine\KeyValue\Metadata;
+use Metabor\Bridge\Doctrine\KeyValue\Metadata;
 use Metabor\Observer\Subject;
 use MetaborStd\Event\EventInterface;
 use Doctrine\ORM\Mapping as ORM;

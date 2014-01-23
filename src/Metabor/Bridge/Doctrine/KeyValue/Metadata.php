@@ -1,5 +1,5 @@
 <?php
-namespace Metabor\Doctrine\KeyValue;
+namespace Metabor\Bridge\Doctrine\KeyValue;
 
 use Doctrine\ORM\Mapping as ORM;
 

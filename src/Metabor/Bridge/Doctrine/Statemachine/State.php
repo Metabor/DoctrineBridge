@@ -1,8 +1,10 @@
 <?php
-namespace Metabor\Doctrine\Statemachine;
+namespace Metabor\Bridge\Doctrine\Statemachine;
+
+use Doctrine\Common\Collections\Collection;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Metabor\Doctrine\KeyValue\Metadata;
+use Metabor\Bridge\Doctrine\KeyValue\Metadata;
 use MetaborStd\Statemachine\StateInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -125,6 +127,38 @@ class State extends Metadata implements StateInterface
     public function hasEvent($name)
     {
         return $this->events->offsetExists($name);
+    }
+
+    /**
+     * @return \Metabor\Bridge\Doctrine\Statemachine\Process
+     */
+    public function getProcess()
+    {
+        return $this->process;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * @param Process $process
+     */
+    public function setProcess(Process $process)
+    {
+        $this->process = $process;
+    }
+
+    /**
+     * @param Collection $events
+     */
+    public function setEvents(Collection $events)
+    {
+        $this->events = $events;
     }
 
 }

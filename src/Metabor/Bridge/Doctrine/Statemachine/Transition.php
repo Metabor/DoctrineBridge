@@ -1,9 +1,9 @@
 <?php
-namespace Metabor\Doctrine\Statemachine;
+namespace Metabor\Bridge\Doctrine\Statemachine;
 
 use Metabor\Statemachine\Condition\SymfonyExpression;
 use MetaborStd\Statemachine\ConditionInterface;
-use Metabor\Doctrine\Event\Event;
+use Metabor\Bridge\Doctrine\Event\Event;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\Expression;
 use MetaborStd\Statemachine\TransitionInterface;

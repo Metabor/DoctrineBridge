@@ -1,5 +1,5 @@
 <?php
-namespace Metabor\Doctrine\Statemachine;
+namespace Metabor\Bridge\Doctrine\Statemachine;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use MetaborStd\Statemachine\ProcessInterface;
