@@ -204,6 +204,7 @@ class State extends Metadata implements StateInterface
                 $event = new Event($eventName);
                 $this->events->set($eventName, $event);
             }
+            return $event;
         }
     }
 
