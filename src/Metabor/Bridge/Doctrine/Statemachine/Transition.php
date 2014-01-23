@@ -36,7 +36,7 @@ class Transition implements TransitionInterface
     /**
      * @var string
      * 
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      * 
      */
     private $conditionName;
@@ -50,7 +50,7 @@ class Transition implements TransitionInterface
     /**
      * @var string
      * 
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      * 
      */
     private $eventName;

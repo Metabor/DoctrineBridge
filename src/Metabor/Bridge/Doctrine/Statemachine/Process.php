@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Process implements ProcessInterface
 {
     const ENTITY_NAME = __CLASS__;
-    
+
     /**
      * @var integer
      *
@@ -36,14 +36,14 @@ class Process implements ProcessInterface
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="State", mappedBy="process", indexBy="name")
+     * @ORM\OneToMany(targetEntity="State", mappedBy="process", indexBy="name", cascade={"persist", "remove"})
      */
     private $states;
 
     /**
      * @var State
      * 
-     * @ORM\ManyToOne(targetEntity="State")
+     * @ORM\ManyToOne(targetEntity="State", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $initialState;
@@ -146,6 +146,21 @@ class Process implements ProcessInterface
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @param string $stateName
+     * @return \Metabor\Bridge\Doctrine\Statemachine\State
+     */
+    public function findOrCreateState($stateName)
+    {
+        if ($this->states->offsetExists($stateName)) {
+            $state = new State($stateName, $this);
+            $this->states->offsetSet($stateName, $state);
+        } else {
+            $state = $this->states->offsetGet($stateName);
+        }
+        return $state;
     }
 
 }

@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Event extends Metadata implements EventInterface
 {
     const ENTITY_NAME = __CLASS__;
-    
+
     /**
      * @var integer
      *
@@ -40,10 +40,18 @@ class Event extends Metadata implements EventInterface
     /**
      * @var string
      *
-     * @ORM\Column(unique=true)
+     * @ORM\Column()
      * 
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(nullable=true)
+     *
+     */
+    private $description;
 
     /**
      *
@@ -139,6 +147,22 @@ class Event extends Metadata implements EventInterface
         $this->invokeArgs = func_get_args();
         $this->notify();
         $this->invokeArgs = array();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
 }

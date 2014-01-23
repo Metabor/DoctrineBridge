@@ -45,14 +45,14 @@ class State extends Metadata implements StateInterface
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Metabor\Bridge\Doctrine\Event\Event", indexBy="name")
+     * @ORM\ManyToMany(targetEntity="Metabor\Bridge\Doctrine\Event\Event", indexBy="name", cascade={"persist", "remove"})
      */
     private $events;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Transition", mappedBy="sourceState")
+     * @ORM\OneToMany(targetEntity="Transition", mappedBy="sourceState", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $transitions;
 
@@ -172,24 +172,6 @@ class State extends Metadata implements StateInterface
         $transition->setSourceState($this);
         $this->transitions->add($transition);
     }
-    
-    /**
-     * @param Transition $transition
-     */
-    public function addTransition(Transition $transition)
-    {
-        $transition->setSourceState($this);
-        $this->transitions->add($transition);
-    }
-    
-    /**
-     * @param Transition $transition
-     */
-    public function addTransition(Transition $transition)
-    {
-        $transition->setSourceState($this);
-        $this->transitions->add($transition);
-    }
 
     /**
      * @param Transition $transition
@@ -198,4 +180,33 @@ class State extends Metadata implements StateInterface
     {
         $this->transitions->remove($transition);
     }
+
+    /**
+     * @param unknown_type $eventName
+     * @return \Metabor\Bridge\Doctrine\Event\Event
+     */
+    public function findOrCreateEvent($eventName)
+    {
+        if ($this->events->offsetExists($eventName)) {
+            $event = new Event($eventName);
+            $this->events->offsetSet($eventName, $event);
+        } else {
+            $event = $this->events->offsetGet($eventName);
+        }
+        return $event;
+    }
+
+    /**
+     * @param State $targetState
+     * @param string $eventName
+     * @param string $conditionName
+     * @return \Metabor\Bridge\Doctrine\Statemachine\Transition
+     */
+    public function createTransition(State $targetState, $eventName = null, $conditionName = null)
+    {
+        $tansition = new Transition($this, $targetState, $eventName, $conditionName);
+        $this->transitions->add($tansition);
+        return $tansition;
+    }
+
 }
