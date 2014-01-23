@@ -13,7 +13,7 @@
         "php": ">=5.3",
         "metabor/metabor-std": "*",
 	    "metabor/statemachine": "*",
-	    "doctrine/orm": " "2.*",
+	    "doctrine/orm": "2.*",
 	    "symfony/expression-language": "*"
     },
      "autoload": {
