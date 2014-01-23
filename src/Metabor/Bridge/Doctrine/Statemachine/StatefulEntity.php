@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @author Oliver Tischlinger
  * 
  */
-class StatefulEntity
+class StatefulEntity implements \SplObserver
 {
 
     /**
