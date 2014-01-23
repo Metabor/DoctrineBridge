@@ -15,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Process implements ProcessInterface
 {
+    const ENTITY_NAME = __CLASS__;
+    
     /**
      * @var integer
      *

@@ -1,6 +1,8 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Statemachine;
 
+use MetaborStd\Event\EventInterface;
+
 use Metabor\Statemachine\Condition\SymfonyExpression;
 use MetaborStd\Statemachine\ConditionInterface;
 use Metabor\Bridge\Doctrine\Event\Event;
@@ -20,6 +22,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Transition implements TransitionInterface
 {
+    const ENTITY_NAME = __CLASS__;
+    
     /**
      * @var integer
      *
@@ -142,7 +146,7 @@ class Transition implements TransitionInterface
     /**
      * @see \MetaborStd\Statemachine\TransitionInterface::isActive()
      */
-    public function isActive($subject, ArrayAccess $context, EventInterface $event = null)
+    public function isActive($subject, \ArrayAccess $context, EventInterface $event = null)
     {
         if ($this->getEvent() === $event) {
             if ($this->condition) {

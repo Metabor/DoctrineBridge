@@ -16,6 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Event extends Metadata implements EventInterface
 {
+    const ENTITY_NAME = __CLASS__;
+    
     /**
      * @var integer
      *

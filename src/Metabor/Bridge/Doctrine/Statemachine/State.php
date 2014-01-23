@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Metabor\Bridge\Doctrine\KeyValue\Metadata;
 use MetaborStd\Statemachine\StateInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Metabor\Bridge\Doctrine\Event\Event;
 
 /**
  *
@@ -18,6 +19,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class State extends Metadata implements StateInterface
 {
+    const ENTITY_NAME = __CLASS__;
+    
     /**
      * @var integer
      *
@@ -42,14 +45,14 @@ class State extends Metadata implements StateInterface
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Event", indexBy="name")
+     * @ORM\ManyToMany(targetEntity="Metabor\Bridge\Doctrine\Event\Event", indexBy="name")
      */
     private $events;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Transition")
+     * @ORM\OneToMany(targetEntity="Transition", mappedBy="sourceState")
      */
     private $transitions;
 

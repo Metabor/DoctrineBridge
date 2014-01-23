@@ -22,10 +22,9 @@ class StatefulEntity
     /**
      * @var State
      * 
-     * @ORM\ManyToOne(targetEntity="State")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Metabor\Bridge\Doctrine\Statemachine\State")
      */
-    private $currentState;
+    protected $currentState;
 
     /**
      * @var \MetaborStd\Statemachine\StatemachineInterface
