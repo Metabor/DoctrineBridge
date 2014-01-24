@@ -36,14 +36,14 @@ class Process implements ProcessInterface
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="State", mappedBy="process", indexBy="name", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="State", mappedBy="process", indexBy="name", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $states;
 
     /**
      * @var State
      * 
-     * @ORM\ManyToOne(targetEntity="State", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="State", mappedBy="process", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $initialState;
@@ -56,7 +56,9 @@ class Process implements ProcessInterface
     {
         $this->states = new ArrayCollection();
         $this->name = $name;
-        $this->initialState = $initialState;
+        if ($initialState) {
+            $this->setInitialState($initialState);
+        }
     }
 
     /**
@@ -113,6 +115,7 @@ class Process implements ProcessInterface
      */
     public function addState(State $state)
     {
+        $state->setProcess($this);
         $this->states->set($state->getName(), $state);
     }
 
