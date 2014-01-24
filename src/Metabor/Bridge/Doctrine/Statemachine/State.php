@@ -32,6 +32,9 @@ class State extends Metadata implements StateInterface
 
     /**
      * @var Process
+     * 
+     * @ORM\ManyToOne(targetEntity="Process")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $process;
 
