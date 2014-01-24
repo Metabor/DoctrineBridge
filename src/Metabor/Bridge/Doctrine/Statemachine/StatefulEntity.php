@@ -54,7 +54,7 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
-     * @return State;
+     * @return string
      */
     public function getCurrentStateName()
     {
@@ -64,7 +64,8 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
-     * @return State;
+     * 
+     * @return \Metabor\Bridge\Doctrine\Statemachine\State
      */
     public function getCurrentState()
     {
@@ -72,6 +73,7 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
+     * 
      * @param State $currentState
      */
     protected function setCurrentState(State $currentState)
