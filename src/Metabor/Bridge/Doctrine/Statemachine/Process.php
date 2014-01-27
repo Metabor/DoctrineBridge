@@ -74,7 +74,7 @@ class Process implements ProcessInterface
      */
     public function getName()
     {
-        return $this->getName();
+        return $this->name;
     }
 
     /**
