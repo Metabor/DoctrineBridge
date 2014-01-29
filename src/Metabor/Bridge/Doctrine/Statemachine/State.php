@@ -33,11 +33,11 @@ class State extends Metadata implements StateInterface
     /**
      * @var Process
      * 
-     * @ORM\ManyToOne(targetEntity="Process")
+     * @ORM\ManyToOne(targetEntity="Process", inversedBy="states")
      * @ORM\JoinColumn(nullable=false)
      */
     private $process;
-
+    
     /**
      * @var string
      *

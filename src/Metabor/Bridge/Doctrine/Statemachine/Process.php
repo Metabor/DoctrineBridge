@@ -43,8 +43,7 @@ class Process implements ProcessInterface
     /**
      * @var State
      * 
-     * @ORM\OneToOne(targetEntity="State", mappedBy="process", cascade={"persist", "remove"})
-     * @ORM\JoinColumn
+     * @ORM\OneToOne(targetEntity="State", cascade={"persist", "remove"})
      */
     private $initialState;
 
