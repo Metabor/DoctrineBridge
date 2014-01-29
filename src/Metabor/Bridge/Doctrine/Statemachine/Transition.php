@@ -149,7 +149,10 @@ class Transition implements TransitionInterface
     protected function getCondition()
     {
         if (!$this->condition) {
-            $this->condition = new SymfonyExpression($this->conditionName, self::$expressionLanguage);
+            $values = array();
+            $values['sourceState'] = $this->sourceState;
+            $values['targetState'] = $this->targetState;
+            $this->condition = new SymfonyExpression($this->conditionName, $values, self::$expressionLanguage);
         }
         return $this->condition;
     }
