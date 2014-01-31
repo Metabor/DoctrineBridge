@@ -37,7 +37,7 @@ class State extends Metadata implements StateInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private $process;
-    
+
     /**
      * @var string
      *
@@ -223,6 +223,21 @@ class State extends Metadata implements StateInterface
         $tansition = new Transition($this, $targetState, $event, $conditionName);
         $this->transitions->add($tansition);
         return $tansition;
+    }
+
+    /**
+     * 
+     * @param string $targetStateName
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTransitionsTo($targetStateName)
+    {
+        $filter = function (Transition $transition) use ($targetStateName)
+        {
+            return ($transition->getTargetState()->getName() === $targetStateName);
+        };
+
+        return $this->transitions->filter($filter);
     }
 
 }

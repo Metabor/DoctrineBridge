@@ -127,7 +127,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @see \MetaborStd\Statemachine\StateCollectionInterface::getState()
+     * @return \Metabor\Bridge\Doctrine\Statemachine\State
      */
     public function getState($name)
     {
@@ -164,5 +164,5 @@ class Process implements ProcessInterface
         }
         return $state;
     }
-
+    
 }

@@ -57,7 +57,7 @@ class Transition implements TransitionInterface
      * @var \Metabor\Bridge\Doctrine\Event\Event
      * 
      * @ORM\ManyToOne(targetEntity="Metabor\Bridge\Doctrine\Event\Event")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * 
      */
     private $event;
