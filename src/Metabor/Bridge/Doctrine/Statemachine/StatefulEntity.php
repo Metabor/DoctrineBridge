@@ -119,9 +119,17 @@ class StatefulEntity implements \SplObserver
      * @param string $eventName
      * @param \ArrayAccess $context
      */
-    public function trigger($eventName, \ArrayAccess $context = null)
+    public function triggerEvent($eventName, \ArrayAccess $context = null)
     {
         $this->getStatemachine()->triggerEvent($eventName, $context);
+    }
+
+    /**
+     * 
+     */
+    public function checkTransitions()
+    {
+        $this->getStatemachine()->checkTransitions();
     }
 
 }
