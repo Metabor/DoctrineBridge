@@ -36,7 +36,9 @@ class StatefulEntity implements \SplObserver
      */
     public function getProcess()
     {
-        return $this->currentState->getProcess();
+        if ($this->currentState) {
+            return $this->currentState->getProcess();
+        }
     }
 
     /**
