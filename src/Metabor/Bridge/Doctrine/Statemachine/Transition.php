@@ -40,7 +40,7 @@ class Transition implements TransitionInterface
     /**
      * @var State
      * 
-     * @ORM\ManyToOne(targetEntity="State", inversedBy="transitions")
+     * @ORM\ManyToOne(targetEntity="State", inversedBy="transitions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $sourceState;
@@ -48,7 +48,7 @@ class Transition implements TransitionInterface
     /**
      * @var State
      * 
-     * @ORM\ManyToOne(targetEntity="State")
+     * @ORM\ManyToOne(targetEntity="State", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $targetState;
@@ -56,7 +56,7 @@ class Transition implements TransitionInterface
     /**
      * @var \Metabor\Bridge\Doctrine\Event\Event
      * 
-     * @ORM\ManyToOne(targetEntity="Metabor\Bridge\Doctrine\Event\Event")
+     * @ORM\ManyToOne(targetEntity="Metabor\Bridge\Doctrine\Event\Event", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * 
      */
