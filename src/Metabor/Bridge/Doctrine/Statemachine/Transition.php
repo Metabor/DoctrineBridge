@@ -214,4 +214,12 @@ class Transition implements TransitionInterface
         $this->targetState = $targetState;
     }
 
+    /**
+     * @param string $eventName
+     */
+    public function setEventName($eventName)
+    {
+        $this->event = $this->sourceState->findOrCreateEvent($eventName);
+    }
+
 }
