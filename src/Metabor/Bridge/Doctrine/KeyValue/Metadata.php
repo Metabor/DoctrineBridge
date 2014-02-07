@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * 
  *        
  */
-class Metadata implements \ArrayAccess
+trait Metadata
 {
     /**
      *

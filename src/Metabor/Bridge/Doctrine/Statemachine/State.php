@@ -17,9 +17,11 @@ use Metabor\Bridge\Doctrine\Event\Event;
  * @ORM\Entity
  *        
  */
-class State extends Metadata implements StateInterface
+class State implements StateInterface, \ArrayAccess
 {
     const ENTITY_NAME = __CLASS__;
+    
+    use Metadata;
 
     /**
      * @var integer

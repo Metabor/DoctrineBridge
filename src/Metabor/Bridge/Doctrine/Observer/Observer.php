@@ -13,4 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class Observer implements \SplObserver
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+    
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

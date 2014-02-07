@@ -2,7 +2,7 @@
 namespace Metabor\Bridge\Doctrine\Event;
 
 use Metabor\Bridge\Doctrine\KeyValue\Metadata;
-use Metabor\Observer\Subject;
+use Metabor\Bridge\Doctrine\Observer\Subject;
 use MetaborStd\Event\EventInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,32 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @author Oliver Tischlinger
  * 
- * @ORM\Table()
  * @ORM\Entity
  *        
  */
-class Event extends Metadata implements EventInterface
+class Event extends Subject implements EventInterface, \ArrayAccess
 {
     const ENTITY_NAME = __CLASS__;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * 
-     */
-    private $id;
-
-    /**
-     *
-     * @var SplObjectStorage
-     * 
-     * @ORM\Column(type="object")
-     * 
-     */
-    private $observers;
+    
+    use Metadata;
 
     /**
      * @var string
@@ -65,7 +47,7 @@ class Event extends Metadata implements EventInterface
     public function __construct($name = null)
     {
         $this->name = $name;
-        $this->observers = new \SplObjectStorage();
+        parent::__construct();
     }
 
     /**
@@ -82,52 +64,6 @@ class Event extends Metadata implements EventInterface
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     *
-     * @see SplSubject::attach()
-     */
-    public function attach(\SplObserver $observer)
-    {
-        $this->observers->attach($observer);
-    }
-
-    /**
-     *
-     * @see SplSubject::detach()
-     */
-    public function detach(\SplObserver $observer)
-    {
-        $this->observers->detach($observer);
-    }
-
-    /**
-     *
-     * @see SplSubject::notify()
-     */
-    public function notify()
-    {
-        /* @var $observer \SplObserver */
-        foreach ($this->observers as $observer) {
-            $observer->update($this);
-        }
-    }
-
-    /**
-     * @return \Traversable
-     */
-    public function getObservers()
-    {
-        return $this->observers;
     }
 
     /**

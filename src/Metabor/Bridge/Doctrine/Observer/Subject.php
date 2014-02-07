@@ -15,26 +15,86 @@ class Subject implements \SplSubject
 {
 
     /**
+     * @var integer
      *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $observers;
+    private $id;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Observer", cascade={"persist"})
+     */
+    private $entityObservers;
+
+    /**
+     * @var \SplObjectStorage
+     * 
+     * @ORM\Column(type="object")
+     */
+    private $otherObservers;
+
+    /**
+     * 
+     */
     public function __construct()
     {
-        $this->observers = new ArrayCollection();
+        $this->entityObservers = new ArrayCollection();
+        $this->otherObservers = new \SplObjectStorage();
     }
 
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @see SplSubject::attach()
+     */
     public function attach(\SplObserver $observer)
     {
+        if ($observer instanceof Observer) {
+            $this->entityObservers->add($observer);
+        } else {
+            $this->otherObservers->attach($observer);
+        }
     }
 
+    /**
+     * @see SplSubject::detach()
+     */
     public function detach(\SplObserver $observer)
     {
+        if ($observer instanceof Observer) {
+            $this->entityObservers->removeElement($observer);
+        } else {
+            $this->otherObservers->detach($observer);
+        }
     }
 
+    /**
+     * @return \Traversable
+     */
+    public function getObservers()
+    {
+        $iterator = new \AppendIterator();
+        $iterator->append($this->entityObservers->getIterator());
+        $iterator->append($this->otherObservers);
+        return $iterator;
+    }
+
+    /**
+     * @see SplSubject::notify()
+     */
     public function notify()
     {
-        foreach ($this->observers as $observer) {
+        foreach ($this->getObservers() as $observer) {
             $observer->update($this);
         }
     }
