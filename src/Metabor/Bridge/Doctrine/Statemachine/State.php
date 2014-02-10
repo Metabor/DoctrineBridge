@@ -71,6 +71,10 @@ class State implements StateInterface, \ArrayAccess
         $this->process = $process;
         $this->events = new ArrayCollection();
         $this->transitions = new ArrayCollection();
+        
+        if ($process) {
+            $process->addState($this);
+        }
     }
 
     /**

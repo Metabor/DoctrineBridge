@@ -60,8 +60,9 @@ class StatefulEntity implements \SplObserver
      */
     public function getCurrentStateName()
     {
-        if ($this->currentState) {
-            return $this->currentState->getName();
+        $currentState = $this->getCurrentState();
+        if ($currentState) {
+            return $currentState->getName();
         }
     }
 
