@@ -13,7 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Subject implements \SplSubject
 {
-
+    const ENTITY_NAME = __CLASS__;
+    
     /**
      * @var integer
      *

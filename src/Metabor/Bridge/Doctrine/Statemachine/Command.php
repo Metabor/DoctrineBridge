@@ -10,6 +10,8 @@ use MetaborStd\Event\EventInterface;
  */
 abstract class Command extends Observer
 {
+    const ENTITY_NAME = __CLASS__;
+    
     /**
      *
      * @param \SplSubject $subject        	

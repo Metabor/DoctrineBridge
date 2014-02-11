@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class Observer implements \SplObserver
 {
+    const ENTITY_NAME = __CLASS__;
+    
     /**
      * @var integer
      *
