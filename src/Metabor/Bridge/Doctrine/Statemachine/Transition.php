@@ -77,6 +77,14 @@ class Transition implements TransitionInterface
     private $condition;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(type="float", options={"default" = 1})
+     *
+     */
+    private $weight = 1;
+
+    /**
      * @param State $sourceState
      * @param State $targetState
      * @param string $eventName
