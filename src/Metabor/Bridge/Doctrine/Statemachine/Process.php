@@ -164,5 +164,32 @@ class Process implements ProcessInterface
         }
         return $state;
     }
-    
+
+    /**
+     * @param Process $process
+     * @param bool $copyObservers
+     */
+    public function addProcess(Process $process, $copyObservers = true)
+    {
+        /* @var $copyState State  */
+        foreach ($process->getStates() as $copyState) {
+            $state = $this->findOrCreateState($copyState->getName());
+            /* @var $copyTransiton Transition */
+            foreach ($copyState->getTransitions() as $copyTransiton) {
+                $targetState = $this->findOrCreateState($copyTransiton->getTargetState()->getName());
+                $state->createTransition($targetState, $copyTransiton->getEventName(), $copyTransiton->getConditionName());
+            }
+
+            /* @var $copyEvent \Metabor\Bridge\Doctrine\Event\Event */
+            foreach ($copyState->getEvents() as $copyEvent) {
+                $event = $state->findOrCreateEvent($copyEvent->getName());
+                if ($copyObservers) {
+                    foreach ($copyEvent->getObservers() as $observer) {
+                        $event->attach($observer);
+                    }
+                }
+            }
+        }
+    }
+
 }
