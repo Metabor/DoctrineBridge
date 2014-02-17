@@ -174,6 +174,7 @@ class Process implements ProcessInterface
         /* @var $copyState State  */
         foreach ($process->getStates() as $copyState) {
             $state = $this->findOrCreateState($copyState->getName());
+            $state->setMetadata($copyState->getMetadata());
             /* @var $copyTransiton Transition */
             foreach ($copyState->getTransitions() as $copyTransiton) {
                 $targetState = $this->findOrCreateState($copyTransiton->getTargetState()->getName());
@@ -183,6 +184,7 @@ class Process implements ProcessInterface
             /* @var $copyEvent \Metabor\Bridge\Doctrine\Event\Event */
             foreach ($copyState->getEvents() as $copyEvent) {
                 $event = $state->findOrCreateEvent($copyEvent->getName());
+                $event->setMetadata($copyEvent->getMetadata());
                 if ($copyObservers) {
                     foreach ($copyEvent->getObservers() as $observer) {
                         $event->attach($observer);
