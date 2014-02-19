@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": ">=5.4",
-        "metabor/metabor-std": "*",
-	    "metabor/statemachine": "*",
+        "metabor/metabor-std": "1.0.*",
+	    "metabor/statemachine": "1.0.*",
 	    "doctrine/orm": "2.*",
 	    "symfony/expression-language": "*"
     },
