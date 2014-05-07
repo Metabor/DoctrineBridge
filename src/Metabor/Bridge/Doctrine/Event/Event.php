@@ -78,7 +78,7 @@ class Event extends Subject implements EventInterface, \ArrayAccess
     /**
      * @see \MetaborStd\CallbackInterface::__invoke()
      */
-    public function __invoke()
+    final public function __invoke()
     {
         $this->invokeArgs = func_get_args();
         $this->notify();
