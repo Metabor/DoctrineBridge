@@ -6,9 +6,7 @@ use Metabor\Statemachine\Condition\SymfonyExpression;
 use MetaborStd\Statemachine\ConditionInterface;
 use Metabor\Bridge\Doctrine\Event\Event;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Symfony\Component\ExpressionLanguage\Expression;
 use MetaborStd\Statemachine\TransitionInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -87,8 +85,8 @@ class Transition implements TransitionInterface
     /**
      * @param State $sourceState
      * @param State $targetState
-     * @param string $eventName
-     * @param string $condition
+     * @param string $event
+     * @param string $conditionName
      */
     public function __construct(State $sourceState = null, State $targetState = null, Event $event = null, $conditionName = null)
     {

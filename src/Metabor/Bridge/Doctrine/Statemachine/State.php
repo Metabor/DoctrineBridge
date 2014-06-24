@@ -2,7 +2,6 @@
 namespace Metabor\Bridge\Doctrine\Statemachine;
 
 use Doctrine\Common\Collections\Collection;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Metabor\Bridge\Doctrine\KeyValue\Metadata;
 use MetaborStd\Statemachine\StateInterface;

@@ -1,6 +1,5 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Observer;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
