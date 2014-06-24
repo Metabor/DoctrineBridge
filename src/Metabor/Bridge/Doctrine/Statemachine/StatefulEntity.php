@@ -1,14 +1,7 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Statemachine;
 use Metabor\Statemachine\Factory\Factory;
-
 use Metabor\Statemachine\Statemachine;
-
-use MetaborStd\Statemachine\StatefulInterface;
-
-use Doctrine\Common\Collections\ArrayCollection;
-
-use MetaborStd\Statemachine\ProcessInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
