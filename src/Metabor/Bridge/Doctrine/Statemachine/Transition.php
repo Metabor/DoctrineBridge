@@ -85,7 +85,7 @@ class Transition implements TransitionInterface
     /**
      * @param State $sourceState
      * @param State $targetState
-     * @param string $event
+     * @param Event $event
      * @param string $conditionName
      */
     public function __construct(State $sourceState = null, State $targetState = null, Event $event = null, $conditionName = null)
