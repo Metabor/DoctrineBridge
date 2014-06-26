@@ -50,7 +50,7 @@ trait Metadata
      */
     public function offsetUnset($offset)
     {
-        $this->metadata[$offset];
+        unset($this->metadata[$offset]);
     }
 
     /**
@@ -68,5 +68,4 @@ trait Metadata
     {
         $this->metadata = $metadata;
     }
-
 }
