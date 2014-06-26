@@ -12,7 +12,7 @@ use MetaborStd\Statemachine\StateInterfaceTest;
 class StateTest extends StateInterfaceTest
 {
 	use MetadataTest;
-	
+
     /**
      * @see \MetaborStd\NamedInterfaceTest::createTestInstance()
      */

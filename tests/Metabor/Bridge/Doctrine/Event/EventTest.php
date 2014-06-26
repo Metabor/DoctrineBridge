@@ -12,7 +12,7 @@ use MetaborStd\Event\EventInterfaceTest;
 class EventTest extends EventInterfaceTest
 {
 	use MetadataTest;
-	
+
     /**
      * @see \MetaborStd\NamedInterfaceTest::createTestInstance()
      */
