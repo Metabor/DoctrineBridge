@@ -7,12 +7,12 @@ use MetaborStd\Statemachine\Factory\ProcessDetectorInterface;
 /**
  *
  * @author Oliver Tischlinger
- * 
+ *
  */
 class Detector implements ProcessDetectorInterface, StateNameDetectorInterface
 {
     const ENTITY_NAME = __CLASS__;
-    
+
     /**
      * @see \MetaborStd\Statemachine\Factory\ProcessDetectorInterface::detectProcess()
      */

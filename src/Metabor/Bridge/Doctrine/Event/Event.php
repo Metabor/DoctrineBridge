@@ -9,21 +9,21 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  *
  * @author Oliver Tischlinger
- * 
+ *
  * @ORM\Entity
- *        
+ *
  */
 class Event extends Subject implements EventInterface, \ArrayAccess
 {
     const ENTITY_NAME = __CLASS__;
-    
+
     use Metadata;
 
     /**
      * @var string
      *
      * @ORM\Column()
-     * 
+     *
      */
     private $name;
 
