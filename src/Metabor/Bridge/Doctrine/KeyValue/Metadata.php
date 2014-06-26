@@ -6,15 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  *
  * @author Oliver Tischlinger
- * 
- *        
+ *
+ *
  */
 trait Metadata
 {
     /**
      *
      * @var array
-     * 
+     *
      * @ORM\Column( type="array" )
      */
     protected $metadata = array();

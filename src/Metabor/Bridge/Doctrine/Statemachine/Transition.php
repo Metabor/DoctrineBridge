@@ -12,10 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  *
  * @author Oliver Tischlinger
- * 
+ *
  * @ORM\Table()
  * @ORM\Entity
- *        
+ *
  */
 class Transition implements TransitionInterface
 {
@@ -24,7 +24,7 @@ class Transition implements TransitionInterface
     /**
      * @var ExpressionLanguage
      */
-    static private $expressionLanguage;
+    private static $expressionLanguage;
 
     /**
      * @var integer
@@ -37,7 +37,7 @@ class Transition implements TransitionInterface
 
     /**
      * @var State
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="State", inversedBy="transitions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -45,7 +45,7 @@ class Transition implements TransitionInterface
 
     /**
      * @var State
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="State", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -53,18 +53,18 @@ class Transition implements TransitionInterface
 
     /**
      * @var \Metabor\Bridge\Doctrine\Event\Event
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="Metabor\Bridge\Doctrine\Event\Event", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
-     * 
+     *
      */
     private $event;
 
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(nullable=true)
-     * 
+     *
      */
     private $conditionName;
 
@@ -83,9 +83,9 @@ class Transition implements TransitionInterface
     private $weight = 1;
 
     /**
-     * @param State $sourceState
-     * @param State $targetState
-     * @param Event $event
+     * @param State  $sourceState
+     * @param State  $targetState
+     * @param Event  $event
      * @param string $conditionName
      */
     public function __construct(State $sourceState = null, State $targetState = null, Event $event = null, $conditionName = null)
@@ -160,6 +160,7 @@ class Transition implements TransitionInterface
             $values['targetState'] = $this->targetState;
             $this->condition = new SymfonyExpression($this->conditionName, $values, self::$expressionLanguage);
         }
+
         return $this->condition;
     }
 
@@ -191,7 +192,7 @@ class Transition implements TransitionInterface
     /**
      * @param ExpressionLanguage $expressionLanguage
      */
-    static public function setExpressionLanguage(ExpressionLanguage $expressionLanguage = null)
+    public static function setExpressionLanguage(ExpressionLanguage $expressionLanguage = null)
     {
         self::$expressionLanguage = $expressionLanguage;
     }

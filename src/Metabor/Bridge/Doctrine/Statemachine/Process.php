@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  *
  * @author Oliver Tischlinger
- * 
+ *
  * @ORM\Table()
  * @ORM\Entity
- *        
+ *
  */
 class Process implements ProcessInterface
 {
@@ -41,14 +41,14 @@ class Process implements ProcessInterface
 
     /**
      * @var State
-     * 
+     *
      * @ORM\OneToOne(targetEntity="State", cascade={"persist", "remove"})
      */
     private $initialState;
 
     /**
      * @param string $name
-     * @param State $initialState
+     * @param State  $initialState
      */
     public function __construct($name = null, State $initialState = null)
     {
@@ -150,7 +150,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @param string $stateName
+     * @param  string                                      $stateName
      * @return \Metabor\Bridge\Doctrine\Statemachine\State
      */
     public function findOrCreateState($stateName)
@@ -161,12 +161,13 @@ class Process implements ProcessInterface
             $state = new State($stateName, $this);
             $this->states->set($stateName, $state);
         }
+
         return $state;
     }
 
     /**
      * @param Process $process
-     * @param bool $copyObservers
+     * @param bool    $copyObservers
      */
     public function addProcess(Process $process, $copyObservers = true)
     {

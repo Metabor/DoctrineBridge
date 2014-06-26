@@ -7,14 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  *
  * @author Oliver Tischlinger
- * 
+ *
  */
 class StatefulEntity implements \SplObserver
 {
 
     /**
      * @var State
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="Metabor\Bridge\Doctrine\Statemachine\State")
      */
     protected $currentState;
@@ -35,8 +35,8 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
-     * 
-     * @param Process $process
+     *
+     * @param  Process    $process
      * @throws \Exception
      */
     public function setProcess(Process $process)
@@ -60,7 +60,7 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
-     * 
+     *
      * @return \Metabor\Bridge\Doctrine\Statemachine\State
      */
     public function getCurrentState()
@@ -69,7 +69,7 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
-     * 
+     *
      * @param State $currentState
      */
     protected function setCurrentState(State $currentState)
@@ -89,7 +89,7 @@ class StatefulEntity implements \SplObserver
 
     /**
      * Overwrite this to make changes on the created statemachine
-     * 
+     *
      * @return \MetaborStd\Statemachine\Factory\FactoryInterface
      */
     protected function getStatemachineFactory()
@@ -97,6 +97,7 @@ class StatefulEntity implements \SplObserver
         $detector = new Detector();
         $factory = new Factory($detector, $detector);
         $factory->attachStatemachineObserver($this);
+
         return $factory;
     }
 
@@ -108,11 +109,12 @@ class StatefulEntity implements \SplObserver
         if (!$this->statemachine) {
             $this->statemachine = $this->getStatemachineFactory()->createStatemachine($this);
         }
+
         return $this->statemachine;
     }
 
     /**
-     * @param string $eventName
+     * @param string       $eventName
      * @param \ArrayAccess $context
      */
     public function triggerEvent($eventName, \ArrayAccess $context = null)
@@ -121,7 +123,7 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
-     * 
+     *
      */
     public function checkTransitions()
     {

@@ -11,15 +11,15 @@ use Metabor\Bridge\Doctrine\Event\Event;
 /**
  *
  * @author Oliver Tischlinger
- * 
+ *
  * @ORM\Table()
  * @ORM\Entity
- *        
+ *
  */
 class State implements StateInterface, \ArrayAccess
 {
     const ENTITY_NAME = __CLASS__;
-    
+
     use Metadata;
 
     /**
@@ -33,7 +33,7 @@ class State implements StateInterface, \ArrayAccess
 
     /**
      * @var Process
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="Process", inversedBy="states")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -61,7 +61,7 @@ class State implements StateInterface, \ArrayAccess
     private $transitions;
 
     /**
-     * @param string $name
+     * @param string  $name
      * @param Process $process
      */
     public function __construct($name = null, Process $process = null)
@@ -70,7 +70,7 @@ class State implements StateInterface, \ArrayAccess
         $this->process = $process;
         $this->events = new ArrayCollection();
         $this->transitions = new ArrayCollection();
-        
+
         if ($process) {
             $process->addState($this);
         }
@@ -157,7 +157,7 @@ class State implements StateInterface, \ArrayAccess
     }
 
     /**
-     * 
+     *
      * @param Event $event
      */
     public function addEvent(Event $event)
@@ -166,7 +166,7 @@ class State implements StateInterface, \ArrayAccess
     }
 
     /**
-     * 
+     *
      * @param Event $event
      */
     public function removeEvent(Event $event)
@@ -200,7 +200,7 @@ class State implements StateInterface, \ArrayAccess
     }
 
     /**
-     * @param string $eventName
+     * @param  string                               $eventName
      * @return \Metabor\Bridge\Doctrine\Event\Event
      */
     public function findOrCreateEvent($eventName)
@@ -212,14 +212,15 @@ class State implements StateInterface, \ArrayAccess
                 $event = new Event($eventName);
                 $this->events->set($eventName, $event);
             }
+
             return $event;
         }
     }
 
     /**
-     * @param State $targetState
-     * @param string $eventName
-     * @param string $conditionName
+     * @param  State                                            $targetState
+     * @param  string                                           $eventName
+     * @param  string                                           $conditionName
      * @return \Metabor\Bridge\Doctrine\Statemachine\Transition
      */
     public function createTransition(State $targetState, $eventName = null, $conditionName = null)
@@ -227,18 +228,18 @@ class State implements StateInterface, \ArrayAccess
         $event = $this->findOrCreateEvent($eventName);
         $tansition = new Transition($this, $targetState, $event, $conditionName);
         $this->transitions->add($tansition);
+
         return $tansition;
     }
 
     /**
-     * 
-     * @param string $targetStateName
+     *
+     * @param  string                                  $targetStateName
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getTransitionsTo($targetStateName)
     {
-        $filter = function (Transition $transition) use ($targetStateName)
-        {
+        $filter = function (Transition $transition) use ($targetStateName) {
             return ($transition->getTargetState()->getName() === $targetStateName);
         };
 

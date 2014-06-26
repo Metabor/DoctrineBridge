@@ -9,12 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="class_name", type="string")
  *
  * @author Oliver Tischlinger
- *        
+ *
  */
 class Subject implements \SplSubject
 {
     const ENTITY_NAME = __CLASS__;
-    
+
     /**
      * @var integer
      *
@@ -33,13 +33,13 @@ class Subject implements \SplSubject
 
     /**
      * @var \SplObjectStorage
-     * 
+     *
      * @ORM\Column(type="object")
      */
     private $otherObservers;
 
     /**
-     * 
+     *
      */
     public function __construct()
     {
@@ -87,6 +87,7 @@ class Subject implements \SplSubject
         $iterator = new \AppendIterator();
         $iterator->append($this->entityObservers->getIterator());
         $iterator->append($this->otherObservers);
+
         return $iterator;
     }
 
