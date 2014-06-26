@@ -231,7 +231,7 @@ class Transition implements TransitionInterface
     }
 
     /**
-     * @return number
+     * @return double
      */
     public function getWeight()
     {

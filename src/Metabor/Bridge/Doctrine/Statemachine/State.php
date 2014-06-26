@@ -244,8 +244,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
      */
     public function getTransitionsTo($targetStateName)
     {
-        $filter = function (Transition $transition) use ($targetStateName)
-        {
+        $filter = function (Transition $transition) use ($targetStateName) {
             return ($transition->getTargetState()->getName() === $targetStateName);
         };
 
