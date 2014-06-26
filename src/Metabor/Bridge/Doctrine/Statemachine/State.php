@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Metabor\Bridge\Doctrine\Event\Event;
+use MetaborStd\MetadataInterface;
 use MetaborStd\Statemachine\StateInterface;
 
 /**
