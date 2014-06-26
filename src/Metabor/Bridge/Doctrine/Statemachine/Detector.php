@@ -32,5 +32,4 @@ class Detector implements ProcessDetectorInterface, StateNameDetectorInterface
             return $subject->getCurrentStateName();
         }
     }
-
 }

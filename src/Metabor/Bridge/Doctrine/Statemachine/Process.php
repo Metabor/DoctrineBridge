@@ -1,5 +1,6 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Statemachine;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use MetaborStd\Statemachine\ProcessInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -193,5 +194,4 @@ class Process implements ProcessInterface
             }
         }
     }
-
 }

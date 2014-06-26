@@ -88,7 +88,8 @@ class Transition implements TransitionInterface
      * @param Event  $event
      * @param string $conditionName
      */
-    public function __construct(State $sourceState = null, State $targetState = null, Event $event = null, $conditionName = null)
+    public function __construct(State $sourceState = null, State $targetState = null, Event $event = null,
+            $conditionName = null)
     {
         $this->sourceState = $sourceState;
         $this->targetState = $targetState;
@@ -229,4 +230,19 @@ class Transition implements TransitionInterface
         $this->event = $this->sourceState->findOrCreateEvent($eventName);
     }
 
+    /**
+     * @return number
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    /**
+     * @param number $weight
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+    }
 }
