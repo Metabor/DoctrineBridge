@@ -1,5 +1,8 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Statemachine;
+
+use MetaborStd\Statemachine\StateInterfaceTest;
+
 /**
  * 
  * @author Oliver Tischlinger

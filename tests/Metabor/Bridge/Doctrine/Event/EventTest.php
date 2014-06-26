@@ -1,5 +1,8 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Event;
+
+use MetaborStd\Event\EventInterfaceTest;
+
 /**
  * 
  * @author Oliver Tischlinger
