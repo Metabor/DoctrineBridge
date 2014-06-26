@@ -11,21 +11,21 @@
     ],
     "require": {
         "php": ">=5.4",
-        "metabor/metabor-std": "1.0.*",
-	    "metabor/statemachine": "1.0.*",
-	    "doctrine/orm": "2.*",
-	    "symfony/expression-language": "*"
+        	"metabor/metabor-std": "~1.1",
+		"metabor/statemachine": "~1.1",
+	 	"doctrine/orm": "2.*",
+	    	"symfony/expression-language": "*"
     },
      "autoload": {
         "psr-0": {
-			"Metabor\\": "src/"
+        	"Metabor\\": "src/"
         }
     },
     "prefer-stable":true,
     "minimum-stability":"dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "1.1.x-dev"
         }
     }
 }
