@@ -1,10 +1,10 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Event;
 
-use Metabor\Bridge\Doctrine\KeyValue\Metadata;
+use Doctrine\ORM\Mapping as ORM;
 use Metabor\Bridge\Doctrine\Observer\Subject;
 use MetaborStd\Event\EventInterface;
-use Doctrine\ORM\Mapping as ORM;
+use MetaborStd\MetadataInterface;
 
 /**
  *
@@ -13,11 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  *
  */
-class Event extends Subject implements EventInterface, \ArrayAccess
+class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInterface
 {
     const ENTITY_NAME = __CLASS__;
-
-    use Metadata;
 
     /**
      * @var string
@@ -40,6 +38,14 @@ class Event extends Subject implements EventInterface, \ArrayAccess
      * @var array
      */
     private $invokeArgs = array();
+
+    /**
+     *
+     * @var array
+     *
+     * @ORM\Column( type="array" )
+     */
+    private $metadata = array();
 
     /**
      * @param string $name
@@ -107,5 +113,55 @@ class Event extends Subject implements EventInterface, \ArrayAccess
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @see ArrayAccess::offsetExists()
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->metadata[$offset]);
+    }
+
+    /**
+     * @see ArrayAccess::offsetGet()
+     */
+    public function offsetGet($offset)
+    {
+        if (isset($this->metadata[$offset])) {
+            return $this->metadata[$offset];
+        }
+    }
+
+    /**
+     * @see ArrayAccess::offsetSet()
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->metadata[$offset] = $value;
+    }
+
+    /**
+     * @see ArrayAccess::offsetUnset()
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->metadata[$offset]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param array $metadata
+     */
+    public function setMetadata(array $metadata)
+    {
+        $this->metadata = $metadata;
     }
 }

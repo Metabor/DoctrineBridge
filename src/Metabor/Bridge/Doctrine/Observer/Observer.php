@@ -1,5 +1,6 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Observer;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**

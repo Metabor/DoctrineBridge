@@ -1,5 +1,6 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Statemachine;
+
 use Metabor\Bridge\Doctrine\Observer\Observer;
 use MetaborStd\Event\EventInterface;
 
@@ -34,5 +35,4 @@ abstract class Command extends Observer
     {
         return get_class($this);
     }
-
 }

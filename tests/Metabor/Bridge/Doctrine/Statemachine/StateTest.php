@@ -1,9 +1,5 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Statemachine;
-
-use Metabor\Bridge\Doctrine\KeyValue\MetadataTest;
-use MetaborStd\Statemachine\StateInterfaceTest;
-
 /**
  * 
  * @author Oliver Tischlinger
@@ -11,7 +7,6 @@ use MetaborStd\Statemachine\StateInterfaceTest;
  */
 class StateTest extends StateInterfaceTest
 {
-	use MetadataTest;
 
     /**
      * @see \MetaborStd\NamedInterfaceTest::createTestInstance()

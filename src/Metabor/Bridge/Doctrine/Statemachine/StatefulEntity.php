@@ -1,7 +1,7 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Statemachine;
+
 use Metabor\Statemachine\Factory\Factory;
-use Metabor\Statemachine\Statemachine;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,7 +44,8 @@ class StatefulEntity implements \SplObserver
         if (!$this->currentState) {
             $this->currentState = $process->getInitialState();
         } elseif ($this->currentState->getProcess() !== $process) {
-            throw new \Exception('There is still a process runnning! Change the process by setting the currentState to a state from the new process');
+            throw new \Exception(
+                    'There is still a process runnning! Change the process by setting the currentState to a state from the new process');
         }
     }
 
@@ -83,7 +84,12 @@ class StatefulEntity implements \SplObserver
     public function update(\SplSubject $subject)
     {
         if ($subject === $this->statemachine) {
-            $this->setCurrentState($this->statemachine->getCurrentState());
+            $currentState = $this->statemachine->getCurrentState();
+            if ($currentState instanceof State) {
+                $this->setCurrentState($currentState);
+            } else {
+                throw new \LogicException('Current State has to be a ' . State::ENTITY_NAME);
+            }
         }
     }
 
@@ -129,5 +135,4 @@ class StatefulEntity implements \SplObserver
     {
         $this->getStatemachine()->checkTransitions();
     }
-
 }

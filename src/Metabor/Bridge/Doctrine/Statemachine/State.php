@@ -3,10 +3,9 @@ namespace Metabor\Bridge\Doctrine\Statemachine;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Metabor\Bridge\Doctrine\KeyValue\Metadata;
-use MetaborStd\Statemachine\StateInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Metabor\Bridge\Doctrine\Event\Event;
+use MetaborStd\Statemachine\StateInterface;
 
 /**
  *
@@ -16,11 +15,9 @@ use Metabor\Bridge\Doctrine\Event\Event;
  * @ORM\Entity
  *
  */
-class State implements StateInterface, \ArrayAccess
+class State implements StateInterface, \ArrayAccess, MetadataInterface
 {
     const ENTITY_NAME = __CLASS__;
-
-    use Metadata;
 
     /**
      * @var integer
@@ -59,6 +56,14 @@ class State implements StateInterface, \ArrayAccess
      * @ORM\OneToMany(targetEntity="Transition", mappedBy="sourceState", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $transitions;
+
+    /**
+     *
+     * @var array
+     *
+     * @ORM\Column( type="array" )
+     */
+    private $metadata = array();
 
     /**
      * @param string  $name
@@ -239,11 +244,61 @@ class State implements StateInterface, \ArrayAccess
      */
     public function getTransitionsTo($targetStateName)
     {
-        $filter = function (Transition $transition) use ($targetStateName) {
+        $filter = function (Transition $transition) use ($targetStateName)
+        {
             return ($transition->getTargetState()->getName() === $targetStateName);
         };
 
         return $this->transitions->filter($filter);
     }
 
+    /**
+     * @see ArrayAccess::offsetExists()
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->metadata[$offset]);
+    }
+
+    /**
+     * @see ArrayAccess::offsetGet()
+     */
+    public function offsetGet($offset)
+    {
+        if (isset($this->metadata[$offset])) {
+            return $this->metadata[$offset];
+        }
+    }
+
+    /**
+     * @see ArrayAccess::offsetSet()
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->metadata[$offset] = $value;
+    }
+
+    /**
+     * @see ArrayAccess::offsetUnset()
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->metadata[$offset]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param array $metadata
+     */
+    public function setMetadata(array $metadata)
+    {
+        $this->metadata = $metadata;
+    }
 }

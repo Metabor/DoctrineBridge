@@ -1,9 +1,5 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Event;
-
-use Metabor\Bridge\Doctrine\KeyValue\MetadataTest;
-use MetaborStd\Event\EventInterfaceTest;
-
 /**
  * 
  * @author Oliver Tischlinger
@@ -11,7 +7,6 @@ use MetaborStd\Event\EventInterfaceTest;
  */
 class EventTest extends EventInterfaceTest
 {
-	use MetadataTest;
 
     /**
      * @see \MetaborStd\NamedInterfaceTest::createTestInstance()
