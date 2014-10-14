@@ -176,7 +176,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
      */
     public function removeEvent(Event $event)
     {
-        $this->events->remove($event);
+        $this->events->removeElement($event);
     }
 
     /**
