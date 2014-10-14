@@ -201,7 +201,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
      */
     public function removeTransition(Transition $transition)
     {
-        $this->transitions->remove($transition);
+        $this->transitions->removeElement($transition);
     }
 
     /**
