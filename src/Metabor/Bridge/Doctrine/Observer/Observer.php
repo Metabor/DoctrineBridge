@@ -1,6 +1,7 @@
 <?php
 namespace Metabor\Bridge\Doctrine\Observer;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,10 +26,33 @@ abstract class Observer implements \SplObserver
     private $id;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Subject", cascade={"persist"}, mappedBy="entityObservers")
+     */
+    private $entitySubjects;
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+    	$this->entitySubjects = new ArrayCollection();
+    }
+
+    /**
      * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
+
+    /**
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getEntitySubjects()
+	{
+		return $this->entitySubjects;
+	}
 }
