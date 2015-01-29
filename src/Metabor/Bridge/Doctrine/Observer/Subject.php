@@ -28,7 +28,7 @@ class Subject implements \SplSubject
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Observer", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Observer", cascade={"persist"}, inversedBy="entitySubjects")
      */
     private $entityObservers;
 
