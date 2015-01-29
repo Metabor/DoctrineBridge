@@ -55,4 +55,26 @@ abstract class Observer implements \SplObserver
 	{
 		return $this->entitySubjects;
 	}
+
+	/**
+	 * @param Subject $subject
+	 */
+	public function addEntitySubject(Subject $subject)
+	{
+		if (!$this->entitySubjects->contains($subject)) {
+			$this->entitySubjects->add($subject);
+			$subject->attach($this);
+		}
+	}
+
+	/**
+	 * @param Subject $subject
+	 */
+	public function removeEntitySubject(Subject $subject)
+	{
+		if ($this->entitySubjects->contains($subject)) {
+			$this->entitySubjects->removeElement($subject);
+			$subject->detach($this);
+		}
+	}
 }
