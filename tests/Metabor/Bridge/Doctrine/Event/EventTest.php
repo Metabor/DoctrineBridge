@@ -4,13 +4,10 @@ namespace Metabor\Bridge\Doctrine\Event;
 use MetaborStd\Event\EventInterfaceTest;
 
 /**
- * 
  * @author Oliver Tischlinger
- *
  */
 class EventTest extends EventInterfaceTest
 {
-
     /**
      * @see \MetaborStd\NamedInterfaceTest::createTestInstance()
      */

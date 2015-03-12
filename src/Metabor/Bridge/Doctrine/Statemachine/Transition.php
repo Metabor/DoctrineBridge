@@ -10,12 +10,10 @@ use MetaborStd\Statemachine\TransitionInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
  * @author Oliver Tischlinger
  *
  * @ORM\Table()
  * @ORM\Entity
- *
  */
 class Transition implements TransitionInterface
 {
@@ -56,7 +54,6 @@ class Transition implements TransitionInterface
      *
      * @ORM\ManyToOne(targetEntity="Metabor\Bridge\Doctrine\Event\Event", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
-     *
      */
     private $event;
 
@@ -64,13 +61,11 @@ class Transition implements TransitionInterface
      * @var string
      *
      * @ORM\Column(nullable=true)
-     *
      */
     private $conditionName;
 
     /**
      * @var ConditionInterface
-     *
      */
     private $condition;
 
@@ -78,7 +73,6 @@ class Transition implements TransitionInterface
      * @var float
      *
      * @ORM\Column(type="float", options={"default" = 1})
-     *
      */
     private $weight = 1;
 
@@ -183,6 +177,7 @@ class Transition implements TransitionInterface
 
     /**
      * @link http://symfony.com/doc/current/components/expression_language/index.html
+     *
      * @param string $conditionName
      */
     public function setConditionName($conditionName)

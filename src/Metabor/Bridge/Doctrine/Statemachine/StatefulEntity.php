@@ -5,13 +5,10 @@ use Metabor\Statemachine\Factory\Factory;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
  * @author Oliver Tischlinger
- *
  */
 class StatefulEntity implements \SplObserver
 {
-
     /**
      * @var State
      *
@@ -35,8 +32,8 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
+     * @param Process $process
      *
-     * @param  Process    $process
      * @throws \Exception
      */
     public function setProcess(Process $process)
@@ -61,7 +58,6 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
-     *
      * @return \Metabor\Bridge\Doctrine\Statemachine\State
      */
     public function getCurrentState()
@@ -70,7 +66,6 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
-     *
      * @param State $currentState
      */
     protected function setCurrentState(State $currentState)
@@ -88,13 +83,13 @@ class StatefulEntity implements \SplObserver
             if ($currentState instanceof State) {
                 $this->setCurrentState($currentState);
             } else {
-                throw new \LogicException('Current State has to be a ' . State::ENTITY_NAME);
+                throw new \LogicException('Current State has to be a '.State::ENTITY_NAME);
             }
         }
     }
 
     /**
-     * Overwrite this to make changes on the created statemachine
+     * Overwrite this to make changes on the created statemachine.
      *
      * @return \MetaborStd\Statemachine\Factory\FactoryInterface
      */

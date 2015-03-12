@@ -8,12 +8,10 @@ use MetaborStd\MetadataInterface;
 use MetaborStd\Statemachine\StateInterface;
 
 /**
- *
  * @author Oliver Tischlinger
  *
  * @ORM\Table()
  * @ORM\Entity
- *
  */
 class State implements StateInterface, \ArrayAccess, MetadataInterface
 {
@@ -58,7 +56,6 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     private $transitions;
 
     /**
-     *
      * @var array
      *
      * @ORM\Column( type="array" )
@@ -162,7 +159,6 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     }
 
     /**
-     *
      * @param Event $event
      */
     public function addEvent(Event $event)
@@ -171,7 +167,6 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     }
 
     /**
-     *
      * @param Event $event
      */
     public function removeEvent(Event $event)
@@ -205,7 +200,8 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     }
 
     /**
-     * @param  string                               $eventName
+     * @param string $eventName
+     *
      * @return \Metabor\Bridge\Doctrine\Event\Event
      */
     public function findOrCreateEvent($eventName)
@@ -223,9 +219,10 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     }
 
     /**
-     * @param  State                                            $targetState
-     * @param  string                                           $eventName
-     * @param  string                                           $conditionName
+     * @param State  $targetState
+     * @param string $eventName
+     * @param string $conditionName
+     *
      * @return \Metabor\Bridge\Doctrine\Statemachine\Transition
      */
     public function createTransition(State $targetState, $eventName = null, $conditionName = null)
@@ -238,8 +235,8 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     }
 
     /**
+     * @param string $targetStateName
      *
-     * @param  string                                  $targetStateName
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getTransitionsTo($targetStateName)

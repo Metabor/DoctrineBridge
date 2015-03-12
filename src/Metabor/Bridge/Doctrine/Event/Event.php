@@ -7,11 +7,9 @@ use MetaborStd\Event\EventInterface;
 use MetaborStd\MetadataInterface;
 
 /**
- *
  * @author Oliver Tischlinger
  *
  * @ORM\Entity
- *
  */
 class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInterface
 {
@@ -21,7 +19,6 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
      * @var string
      *
      * @ORM\Column()
-     *
      */
     private $name;
 
@@ -29,18 +26,15 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
      * @var string
      *
      * @ORM\Column(nullable=true)
-     *
      */
     private $description;
 
     /**
-     *
      * @var array
      */
     private $invokeArgs = array();
 
     /**
-     *
      * @var array
      *
      * @ORM\Column( type="array" )
@@ -73,7 +67,6 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     }
 
     /**
-     *
      * @see MetaborStd\Event.EventInterface::getInvokeArgs()
      */
     public function getInvokeArgs()

@@ -5,9 +5,7 @@ use MetaborStd\Statemachine\Factory\StateNameDetectorInterface;
 use MetaborStd\Statemachine\Factory\ProcessDetectorInterface;
 
 /**
- *
  * @author Oliver Tischlinger
- *
  */
 class Detector implements ProcessDetectorInterface, StateNameDetectorInterface
 {

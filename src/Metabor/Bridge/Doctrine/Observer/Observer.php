@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="class_name", type="string")
  *
  * @author Oliver Tischlinger
- *
  */
 abstract class Observer implements \SplObserver
 {
@@ -37,7 +36,7 @@ abstract class Observer implements \SplObserver
      */
     public function __construct()
     {
-    	$this->entitySubjects = new ArrayCollection();
+        $this->entitySubjects = new ArrayCollection();
     }
 
     /**
@@ -49,32 +48,32 @@ abstract class Observer implements \SplObserver
     }
 
     /**
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getEntitySubjects()
-	{
-		return $this->entitySubjects;
-	}
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEntitySubjects()
+    {
+        return $this->entitySubjects;
+    }
 
-	/**
-	 * @param Subject $subject
-	 */
-	public function addEntitySubject(Subject $subject)
-	{
-		if (!$this->entitySubjects->contains($subject)) {
-			$this->entitySubjects->add($subject);
-			$subject->attach($this);
-		}
-	}
+    /**
+     * @param Subject $subject
+     */
+    public function addEntitySubject(Subject $subject)
+    {
+        if (!$this->entitySubjects->contains($subject)) {
+            $this->entitySubjects->add($subject);
+            $subject->attach($this);
+        }
+    }
 
-	/**
-	 * @param Subject $subject
-	 */
-	public function removeEntitySubject(Subject $subject)
-	{
-		if ($this->entitySubjects->contains($subject)) {
-			$this->entitySubjects->removeElement($subject);
-			$subject->detach($this);
-		}
-	}
+    /**
+     * @param Subject $subject
+     */
+    public function removeEntitySubject(Subject $subject)
+    {
+        if ($this->entitySubjects->contains($subject)) {
+            $this->entitySubjects->removeElement($subject);
+            $subject->detach($this);
+        }
+    }
 }

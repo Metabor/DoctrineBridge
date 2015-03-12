@@ -5,17 +5,15 @@ use Metabor\Bridge\Doctrine\Observer\Observer;
 use MetaborStd\Event\EventInterface;
 
 /**
- *
  * @author Oliver Tischlinger
- *
  */
 abstract class Command extends Observer
 {
     const ENTITY_NAME = __CLASS__;
 
     /**
+     * @param \SplSubject $subject
      *
-     * @param  \SplSubject               $subject
      * @throws \InvalidArgumentException
      */
     public function update(\SplSubject $subject)
@@ -27,7 +25,7 @@ abstract class Command extends Observer
     }
 
     /**
-     * Overwrite this to change the name for the Command that is displayed in the graph
+     * Overwrite this to change the name for the Command that is displayed in the graph.
      *
      * @return string
      */

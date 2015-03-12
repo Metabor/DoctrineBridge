@@ -6,12 +6,10 @@ use MetaborStd\Statemachine\ProcessInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
  * @author Oliver Tischlinger
  *
  * @ORM\Table()
  * @ORM\Entity
- *
  */
 class Process implements ProcessInterface
 {
@@ -151,7 +149,8 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @param  string                                      $stateName
+     * @param string $stateName
+     *
      * @return \Metabor\Bridge\Doctrine\Statemachine\State
      */
     public function findOrCreateState($stateName)

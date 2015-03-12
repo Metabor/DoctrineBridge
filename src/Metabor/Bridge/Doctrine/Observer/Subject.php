@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="class_name", type="string")
  *
  * @author Oliver Tischlinger
- *
  */
 class Subject implements \SplSubject
 {
@@ -97,6 +96,7 @@ class Subject implements \SplSubject
      */
     public function notify()
     {
+        /* @var $observer \SplObserver */
         foreach ($this->getObservers() as $observer) {
             $observer->update($this);
         }

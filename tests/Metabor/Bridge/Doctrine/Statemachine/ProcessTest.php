@@ -4,9 +4,7 @@ namespace Metabor\Bridge\Doctrine\Statemachine;
 use MetaborStd\Statemachine\ProcessInterfaceTest;
 
 /**
- * 
  * @author Oliver Tischlinger
- *
  */
 class ProcessTest extends ProcessInterfaceTest
 {
@@ -17,6 +15,7 @@ class ProcessTest extends ProcessInterfaceTest
     {
         $name = $this->getOneStateNameOfTheCollection();
         $state = new State($name);
+
         return new Process('TestProcess', $state);
     }
 
