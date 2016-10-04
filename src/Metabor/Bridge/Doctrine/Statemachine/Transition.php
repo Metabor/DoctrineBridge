@@ -5,6 +5,7 @@ use MetaborStd\Event\EventInterface;
 use Metabor\Statemachine\Condition\SymfonyExpression;
 use MetaborStd\Statemachine\ConditionInterface;
 use Metabor\Bridge\Doctrine\Event\Event;
+use MetaborStd\WeightedInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use MetaborStd\Statemachine\TransitionInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Transition implements TransitionInterface
+class Transition implements TransitionInterface, WeightedInterface
 {
     const ENTITY_NAME = __CLASS__;
 
