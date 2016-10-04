@@ -13,11 +13,11 @@
         "php": ">=5.3",
         "metabor/statemachine": "~1.1.0",
         "metabor/metabor-std": "~1.1.4",
-        "doctrine/orm": "2.*",
+        "doctrine/orm": ">=2.4.0",
         "symfony/expression-language": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.1"
+        "phpunit/phpunit": "*"
     },
     "suggest": {
         "clue/graph": "For displaying process graph"
