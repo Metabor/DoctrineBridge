@@ -124,10 +124,10 @@ class StatefulEntity implements \SplObserver
     }
 
     /**
-     *
+     * @param \ArrayAccess $context
      */
-    public function checkTransitions()
+    public function checkTransitions(\ArrayAccess $context = null)
     {
-        $this->getStatemachine()->checkTransitions();
+        $this->getStatemachine()->checkTransitions($context);
     }
 }
