@@ -9,12 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class StatefulEntity implements \SplObserver
 {
-    /**
-     * @var State
-     *
-     * @ORM\ManyToOne(targetEntity="Metabor\Bridge\Doctrine\Statemachine\State")
-     */
-    protected $currentState;
+    #[ORM\ManyToOne(targetEntity: State::class)]
+    protected ?State $currentState = null;
 
     /**
      * @var \MetaborStd\Statemachine\StatemachineInterface
@@ -76,7 +72,7 @@ class StatefulEntity implements \SplObserver
     /**
      * @see SplObserver::update()
      */
-    public function update(\SplSubject $subject)
+    public function update(\SplSubject $subject): void
     {
         if ($subject === $this->statemachine) {
             $currentState = $this->statemachine->getCurrentState();
@@ -118,7 +114,7 @@ class StatefulEntity implements \SplObserver
      * @param string       $eventName
      * @param \ArrayAccess $context
      */
-    public function triggerEvent($eventName, \ArrayAccess $context = null)
+    public function triggerEvent(string $eventName, ?\ArrayAccess $context = null): void
     {
         $this->getStatemachine()->triggerEvent($eventName, $context);
     }
@@ -126,7 +122,7 @@ class StatefulEntity implements \SplObserver
     /**
      * @param \ArrayAccess $context
      */
-    public function checkTransitions(\ArrayAccess $context = null)
+    public function checkTransitions(?\ArrayAccess $context = null): void
     {
         $this->getStatemachine()->checkTransitions($context);
     }

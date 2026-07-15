@@ -3,14 +3,15 @@ namespace Metabor\Bridge\Doctrine\Statemachine;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use MetaborStd\Statemachine\ProcessInterface;
+use MetaborStd\Statemachine\StateInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author Oliver Tischlinger
  *
- * @ORM\Table()
- * @ORM\Entity
  */
+ #[ORM\Table]
+ #[ORM\Entity]
 class Process implements ProcessInterface
 {
     const ENTITY_NAME = __CLASS__;
@@ -18,38 +19,38 @@ class Process implements ProcessInterface
     /**
      * @var integer
      *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+     #[ORM\Column(type: 'integer')]
+     #[ORM\Id]
+     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(unique=true)
      */
+     #[ORM\Column(unique: true)]
     private $name;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="State", mappedBy="process", indexBy="name", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+     #[ORM\OneToMany(targetEntity: 'State', mappedBy: 'process', indexBy: 'name', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $states;
 
     /**
      * @var State
      *
-     * @ORM\OneToOne(targetEntity="State", cascade={"persist", "remove"})
      */
+     #[ORM\OneToOne(targetEntity: 'State', cascade: ['persist', 'remove'])]
     private $initialState;
 
     /**
      * @param string $name
      * @param State  $initialState
      */
-    public function __construct($name = null, State $initialState = null)
+    public function __construct(?string $name = null, ?State $initialState = null)
     {
         $this->states = new ArrayCollection();
         $this->name = $name;
@@ -69,7 +70,7 @@ class Process implements ProcessInterface
     /**
      * @see \Metabor\Named::getName()
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -94,7 +95,7 @@ class Process implements ProcessInterface
     /**
      * @see \MetaborStd\Statemachine\ProcessInterface::getInitialState()
      */
-    public function getInitialState()
+    public function getInitialState(): StateInterface
     {
         return $this->initialState;
     }
@@ -102,7 +103,7 @@ class Process implements ProcessInterface
     /**
      * @see \MetaborStd\Statemachine\StateCollectionInterface::getStates()
      */
-    public function getStates()
+    public function getStates(): \Traversable
     {
         return $this->states;
     }
@@ -110,7 +111,7 @@ class Process implements ProcessInterface
     /**
      * @param State $state
      */
-    public function addState(State $state)
+    public function addState(State $state): void
     {
         $state->setProcess($this);
         $this->states->set($state->getName(), $state);
@@ -119,7 +120,7 @@ class Process implements ProcessInterface
     /**
      * @param State $state
      */
-    public function removeState(State $state)
+    public function removeState(State $state): void
     {
         $this->states->removeElement($state);
     }
@@ -127,7 +128,7 @@ class Process implements ProcessInterface
     /**
      * @return \Metabor\Bridge\Doctrine\Statemachine\State
      */
-    public function getState($name)
+    public function getState(string $name): StateInterface
     {
         return $this->states->get($name);
     }
@@ -135,7 +136,7 @@ class Process implements ProcessInterface
     /**
      * @see \MetaborStd\Statemachine\StateCollectionInterface::hasState()
      */
-    public function hasState($name)
+    public function hasState(string $name): bool
     {
         return $this->states->containsKey($name);
     }
