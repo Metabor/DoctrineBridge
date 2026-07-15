@@ -2,87 +2,74 @@
 namespace Metabor\Bridge\Doctrine\Observer;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="class_name", type="string")
- *
  * @author Oliver Tischlinger
  */
+#[ORM\Entity]
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'class_name', type: 'string')]
 class Subject implements \SplSubject
 {
     const ENTITY_NAME = __CLASS__;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
+
+    /** @var Collection<int, Observer> */
+    #[ORM\ManyToMany(targetEntity: Observer::class, inversedBy: 'entitySubjects', cascade: ['persist'])]
+    private Collection $entityObservers;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * Beobachter, die keine Doctrine-Entities sind — zur Laufzeit angehaengt.
      *
-     * @ORM\ManyToMany(targetEntity="Observer", cascade={"persist"}, inversedBy="entitySubjects")
+     * NICHT persistiert (frueher @ORM\Column(type="object")). Der DBAL-Typ "object"
+     * existiert seit DBAL 4 nicht mehr: Er hat beliebige Objekte serialisiert und beim
+     * Laden per unserialize() wiederhergestellt, was eine bekannte Angriffsflaeche ist.
+     * Ein eigener Typ als Ersatz wuerde genau das wieder einbauen.
      */
-    private $entityObservers;
+    private \SplObjectStorage $otherObservers;
 
-    /**
-     * @var \SplObjectStorage
-     *
-     * @ORM\Column(type="object")
-     */
-    private $otherObservers;
-
-    /**
-     *
-     */
     public function __construct()
     {
         $this->entityObservers = new ArrayCollection();
         $this->otherObservers = new \SplObjectStorage();
     }
 
-    /**
-     * @return integer
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @see SplSubject::attach()
+     * @see \SplSubject::attach()
      */
-    public function attach(\SplObserver $observer)
+    public function attach(\SplObserver $observer): void
     {
         if ($observer instanceof Observer) {
             $this->entityObservers->add($observer);
         } else {
-            $this->otherObservers->attach($observer);
+            $this->otherObservers->offsetSet($observer, null);
         }
     }
 
     /**
-     * @see SplSubject::detach()
+     * @see \SplSubject::detach()
      */
-    public function detach(\SplObserver $observer)
+    public function detach(\SplObserver $observer): void
     {
         if ($observer instanceof Observer) {
             $this->entityObservers->removeElement($observer);
         } else {
-            $this->otherObservers->detach($observer);
+            $this->otherObservers->offsetUnset($observer);
         }
     }
 
-    /**
-     * @return \Traversable
-     */
-    public function getObservers()
+    public function getObservers(): \Traversable
     {
         $iterator = new \AppendIterator();
         $iterator->append($this->entityObservers->getIterator());
@@ -92,9 +79,9 @@ class Subject implements \SplSubject
     }
 
     /**
-     * @see SplSubject::notify()
+     * @see \SplSubject::notify()
      */
-    public function notify()
+    public function notify(): void
     {
         /* @var $observer \SplObserver */
         foreach ($this->getObservers() as $observer) {

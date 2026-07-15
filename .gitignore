@@ -3,3 +3,5 @@
 .settings/org.eclipse.php.core.prefs
 .settings/
 vendor/
+.phpunit.result.cache
+.phpunit.cache/

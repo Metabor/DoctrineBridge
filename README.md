@@ -11,8 +11,8 @@ If you want to use it in Symfony2 add this to your config.yml:
       orm:
           mappings:
             statemachine:
-              type: annotation
+              type: attribute
               prefix: Metabor\Bridge\Doctrine
-              dir: "%kernel.root_dir%/../vendor/metabor/statemachine-doctrine-bridge/src/Metabor/Bridge/Doctrine"
+              dir: "%kernel.project_dir%/vendor/metabor/statemachine-doctrine-bridge/src/Metabor/Bridge/Doctrine"
               alias: Statemachine
               is_bundle: false

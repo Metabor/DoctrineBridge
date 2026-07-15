@@ -8,14 +8,15 @@ use Metabor\Bridge\Doctrine\Event\Event;
 use MetaborStd\WeightedInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use MetaborStd\Statemachine\TransitionInterface;
+use MetaborStd\Statemachine\StateInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author Oliver Tischlinger
  *
- * @ORM\Table()
- * @ORM\Entity
  */
+ #[ORM\Table]
+ #[ORM\Entity]
 class Transition implements TransitionInterface, WeightedInterface
 {
     const ENTITY_NAME = __CLASS__;
@@ -28,41 +29,41 @@ class Transition implements TransitionInterface, WeightedInterface
     /**
      * @var integer
      *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+     #[ORM\Column(type: 'integer')]
+     #[ORM\Id]
+     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private $id;
 
     /**
      * @var State
      *
-     * @ORM\ManyToOne(targetEntity="State", inversedBy="transitions", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
      */
+     #[ORM\ManyToOne(targetEntity: 'State', inversedBy: 'transitions', cascade: ['persist'])]
+     #[ORM\JoinColumn(nullable: false)]
     private $sourceState;
 
     /**
      * @var State
      *
-     * @ORM\ManyToOne(targetEntity="State", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
      */
+     #[ORM\ManyToOne(targetEntity: 'State', cascade: ['persist'])]
+     #[ORM\JoinColumn(nullable: false)]
     private $targetState;
 
     /**
      * @var \Metabor\Bridge\Doctrine\Event\Event
      *
-     * @ORM\ManyToOne(targetEntity="Metabor\Bridge\Doctrine\Event\Event", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
+     #[ORM\ManyToOne(targetEntity: 'Metabor\Bridge\Doctrine\Event\Event', cascade: ['persist'])]
+     #[ORM\JoinColumn(nullable: true)]
     private $event;
 
     /**
      * @var string
      *
-     * @ORM\Column(nullable=true)
      */
+     #[ORM\Column(nullable: true)]
     private $conditionName;
 
     /**
@@ -73,8 +74,8 @@ class Transition implements TransitionInterface, WeightedInterface
     /**
      * @var float
      *
-     * @ORM\Column(type="float", options={"default" = 1})
      */
+     #[ORM\Column(type: 'float', options: ['default" = 1'])]
     private $weight = 1;
 
     /**
@@ -83,8 +84,12 @@ class Transition implements TransitionInterface, WeightedInterface
      * @param Event  $event
      * @param string $conditionName
      */
-    public function __construct(State $sourceState = null, State $targetState = null, Event $event = null,
-            $conditionName = null)
+    public function __construct(
+        ?State $sourceState = null,
+        ?State $targetState = null,
+        ?Event $event = null,
+        ?string $conditionName = null
+    )
     {
         $this->sourceState = $sourceState;
         $this->targetState = $targetState;
@@ -103,7 +108,7 @@ class Transition implements TransitionInterface, WeightedInterface
     /**
      * @return string
      */
-    public function getConditionName()
+    public function getConditionName(): ?string
     {
         return $this->conditionName;
     }
@@ -111,7 +116,7 @@ class Transition implements TransitionInterface, WeightedInterface
     /**
      * @see \MetaborStd\Statemachine\TransitionInterface::getTargetState()
      */
-    public function getTargetState()
+    public function getTargetState(): StateInterface
     {
         return $this->targetState;
     }
@@ -127,7 +132,7 @@ class Transition implements TransitionInterface, WeightedInterface
     /**
      * @param Event $event
      */
-    public function setEvent(Event $event = null)
+    public function setEvent(?Event $event = null): void
     {
         if ($event) {
             $this->getSourceState()->getEvents()->add($event);
@@ -138,7 +143,7 @@ class Transition implements TransitionInterface, WeightedInterface
     /**
      * @see \MetaborStd\Statemachine\TransitionInterface::getEventName()
      */
-    public function getEventName()
+    public function getEventName(): ?string
     {
         if ($this->event) {
             return $this->event->getName();
@@ -163,7 +168,7 @@ class Transition implements TransitionInterface, WeightedInterface
     /**
      * @see \MetaborStd\Statemachine\TransitionInterface::isActive()
      */
-    public function isActive($subject, \ArrayAccess $context, EventInterface $event = null)
+    public function isActive(object $subject, \ArrayAccess $context, ?EventInterface $event = null): bool
     {
         if ($this->event === $event) {
             if ($this->conditionName) {
@@ -189,7 +194,7 @@ class Transition implements TransitionInterface, WeightedInterface
     /**
      * @param ExpressionLanguage $expressionLanguage
      */
-    public static function setExpressionLanguage(ExpressionLanguage $expressionLanguage = null)
+    public static function setExpressionLanguage(?ExpressionLanguage $expressionLanguage = null): void
     {
         self::$expressionLanguage = $expressionLanguage;
     }
@@ -229,7 +234,7 @@ class Transition implements TransitionInterface, WeightedInterface
     /**
      * @return double
      */
-    public function getWeight()
+    public function getWeight(): float
     {
         return $this->weight;
     }

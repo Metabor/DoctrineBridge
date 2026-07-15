@@ -6,13 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Metabor\Bridge\Doctrine\Event\Event;
 use MetaborStd\MetadataInterface;
 use MetaborStd\Statemachine\StateInterface;
+use MetaborStd\Event\EventInterface;
 
 /**
  * @author Oliver Tischlinger
  *
- * @ORM\Table()
- * @ORM\Entity
  */
+ #[ORM\Table]
+ #[ORM\Entity]
 class State implements StateInterface, \ArrayAccess, MetadataInterface
 {
     const ENTITY_NAME = __CLASS__;
@@ -20,53 +21,53 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @var integer
      *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+     #[ORM\Column(type: 'integer')]
+     #[ORM\Id]
+     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private $id;
 
     /**
      * @var Process
      *
-     * @ORM\ManyToOne(targetEntity="Process", inversedBy="states")
-     * @ORM\JoinColumn(nullable=false)
      */
+     #[ORM\ManyToOne(targetEntity: 'Process', inversedBy: 'states')]
+     #[ORM\JoinColumn(nullable: false)]
     private $process;
 
     /**
      * @var string
      *
-     * @ORM\Column()
      */
+     #[ORM\Column]
     private $name;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Metabor\Bridge\Doctrine\Event\Event", indexBy="name", cascade={"persist", "remove"})
      */
+     #[ORM\ManyToMany(targetEntity: 'Metabor\Bridge\Doctrine\Event\Event', indexBy: 'name', cascade: ['persist', 'remove'])]
     private $events;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Transition", mappedBy="sourceState", cascade={"persist", "remove"}, orphanRemoval=true)
      */
+     #[ORM\OneToMany(targetEntity: 'Transition', mappedBy: 'sourceState', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private $transitions;
 
     /**
      * @var array
      *
-     * @ORM\Column( type="array" )
      */
+     #[ORM\Column(type: 'json')]
     private $metadata = array();
 
     /**
      * @param string  $name
      * @param Process $process
      */
-    public function __construct($name = null, Process $process = null)
+    public function __construct(?string $name = null, ?Process $process = null)
     {
         $this->name = $name;
         $this->process = $process;
@@ -89,7 +90,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @see \Metabor\Named::getName()
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -105,7 +106,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName();
     }
@@ -113,7 +114,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @see \MetaborStd\Statemachine\StateInterface::getEvent()
      */
-    public function getEvent($name)
+    public function getEvent(string $name): EventInterface
     {
         return $this->events->get($name);
     }
@@ -121,7 +122,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @see \MetaborStd\Statemachine\StateInterface::getEventNames()
      */
-    public function getEventNames()
+    public function getEventNames(): \Traversable|array
     {
         return $this->events->getKeys();
     }
@@ -129,7 +130,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @see \MetaborStd\Statemachine\StateInterface::getTransitions()
      */
-    public function getTransitions()
+    public function getTransitions(): \Traversable
     {
         return $this->transitions;
     }
@@ -137,7 +138,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @see \MetaborStd\Statemachine\StateInterface::hasEvent()
      */
-    public function hasEvent($name)
+    public function hasEvent(string $name): bool
     {
         return $this->events->containsKey($name);
     }
@@ -251,7 +252,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @see ArrayAccess::offsetExists()
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->metadata[$offset]);
     }
@@ -259,7 +260,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @see ArrayAccess::offsetGet()
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         if (isset($this->metadata[$offset])) {
             return $this->metadata[$offset];
@@ -269,7 +270,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @see ArrayAccess::offsetSet()
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->metadata[$offset] = $value;
     }
@@ -277,7 +278,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @see ArrayAccess::offsetUnset()
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->metadata[$offset]);
     }
@@ -285,7 +286,7 @@ class State implements StateInterface, \ArrayAccess, MetadataInterface
     /**
      * @return array
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         return $this->metadata;
     }

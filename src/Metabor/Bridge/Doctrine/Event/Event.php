@@ -9,8 +9,8 @@ use MetaborStd\MetadataInterface;
 /**
  * @author Oliver Tischlinger
  *
- * @ORM\Entity
  */
+ #[ORM\Entity]
 class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInterface
 {
     const ENTITY_NAME = __CLASS__;
@@ -18,15 +18,15 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     /**
      * @var string
      *
-     * @ORM\Column()
      */
+     #[ORM\Column]
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(nullable=true)
      */
+     #[ORM\Column(nullable: true)]
     private $description;
 
     /**
@@ -37,8 +37,8 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     /**
      * @var array
      *
-     * @ORM\Column( type="array" )
      */
+     #[ORM\Column(type: 'json')]
     private $metadata = array();
 
     /**
@@ -53,7 +53,7 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     /**
      * @see \Metabor\Named::getName()
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -69,7 +69,7 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     /**
      * @see MetaborStd\Event.EventInterface::getInvokeArgs()
      */
-    public function getInvokeArgs()
+    public function getInvokeArgs(): array
     {
         return $this->invokeArgs;
     }
@@ -77,7 +77,7 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     /**
      * @see \MetaborStd\CallbackInterface::__invoke()
      */
-    final public function __invoke()
+    final public function __invoke(): mixed
     {
         $this->invokeArgs = func_get_args();
         $this->notify();
@@ -111,7 +111,7 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     /**
      * @see ArrayAccess::offsetExists()
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->metadata[$offset]);
     }
@@ -119,7 +119,7 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     /**
      * @see ArrayAccess::offsetGet()
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         if (isset($this->metadata[$offset])) {
             return $this->metadata[$offset];
@@ -129,7 +129,7 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     /**
      * @see ArrayAccess::offsetSet()
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->metadata[$offset] = $value;
     }
@@ -137,7 +137,7 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     /**
      * @see ArrayAccess::offsetUnset()
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->metadata[$offset]);
     }
@@ -145,7 +145,7 @@ class Event extends Subject implements EventInterface, \ArrayAccess, MetadataInt
     /**
      * @return array
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         return $this->metadata;
     }

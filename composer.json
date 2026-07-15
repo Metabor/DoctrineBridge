@@ -1,6 +1,6 @@
 {
     "name": "metabor/statemachine-doctrine-bridge",
-    "description": "Doctrine implementation of the MetaborStd (Statemachine)",
+    "description": "Doctrine implementation of the MetaborStd (Statemachine) for PHP 8.2+",
     "license": "MIT",
     "keywords": ["doctrine", "statemachine", "state machine", "status", "process"],
     "authors": [
@@ -10,28 +10,31 @@
         }
     ],
     "require": {
-        "php": ">=5.3",
-        "metabor/statemachine": ">=1.1.0",
-        "metabor/metabor-std": ">=1.1.4",
-        "doctrine/orm": ">=2.4.0",
-        "symfony/expression-language": "*"
+        "php": ">=8.2",
+        "metabor/statemachine": "~3.0.0",
+        "metabor/metabor-std": "~3.0.0",
+        "doctrine/orm": "^2.20 || ^3.0",
+        "doctrine/collections": "^2.0",
+        "symfony/expression-language": "^6"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "^11.0",
+        "symfony/var-exporter": "^6.4 || ^7.0"
     },
     "suggest": {
         "clue/graph": "For displaying process graph"
     },
     "autoload": {
         "psr-0": {
-        	"Metabor\\": "src/"
+            "Metabor\\": "src/"
         }
     },
-    "prefer-stable":true,
-    "minimum-stability":"dev",
+    "prefer-stable": true,
+    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1.x-dev"
+            "dev-master": "3.0.x-dev",
+            "dev-3.0.x-dev": "3.0.x-dev"
         }
     }
 }

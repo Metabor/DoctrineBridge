@@ -5,12 +5,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="class_name", type="string")
  *
  * @author Oliver Tischlinger
  */
+ #[ORM\Entity]
+ #[ORM\InheritanceType('JOINED')]
+ #[ORM\DiscriminatorColumn(name: 'class_name', type: 'string')]
 abstract class Observer implements \SplObserver
 {
     const ENTITY_NAME = __CLASS__;
@@ -18,17 +18,17 @@ abstract class Observer implements \SplObserver
     /**
      * @var integer
      *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+     #[ORM\Column(type: 'integer')]
+     #[ORM\Id]
+     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private $id;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Subject", cascade={"persist"}, mappedBy="entityObservers")
      */
+     #[ORM\ManyToMany(targetEntity: 'Subject', cascade: ['persist'], mappedBy: 'entityObservers')]
     private $entitySubjects;
 
     /**
